@@ -36,7 +36,7 @@ local item = {
     TropicalDrink = "TropicalDrink",
     Glitter = "Glitter",
     Glue = "Glue",
-    Gumdrops = "Gumdrops",
+    Gumdrop = "Gumdrop",
     MoonCharm = "MoonCharm",
     StarJelly = "StarJelly",
     PurplePotion = "PurplePotion",
@@ -49,9 +49,10 @@ local item = {
     LoadedDice = "LoadedDice",
     SuperSmoothie = "SuperSmoothie",
 }
+--while magic bean
+
 --boolean
-local count = 1
-local AutoMagicBean = false
+local countitem = 1
 -- float
 float = false
 local floatpad = Instance.new("Part", game:GetService("Workspace"))
@@ -59,8 +60,15 @@ floatpad.CanCollide = false
 floatpad.Anchored = true
 floatpad.Transparency = 1
 floatpad.Name = "FloatPad"
+
 game:GetService('RunService').Heartbeat:connect(function() 
-    if float then game.Players.LocalPlayer.Character.Humanoid.BodyTypeScale.Value = 0 floatpad.CanCollide = true floatpad.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position.X, game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y-3.75, game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z) task.wait(0)  else floatpad.CanCollide = false end
+    if float == true then
+         game.Players.LocalPlayer.Character.Humanoid.BodyTypeScale.Value = 0 
+         floatpad.CanCollide = true 
+         floatpad.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position.X, game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y-3.75, game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z) task.wait(0)  
+        else 
+            floatpad.CanCollide = false 
+        end
 end)
 
 function Notify(Text)
@@ -69,13 +77,6 @@ function Notify(Text)
         Content = Text,
         Duration = 3.0,
         Image = 0,
-        Actions = { -- Notification Buttons
-           Ignore = {
-              Name = "Okay!",
-              Callback = function()
-           end
-        },
-     },
      })    
 end
 function Endcraft()
@@ -105,22 +106,42 @@ function Usemagicbean()
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("PlayerActivesCommand"):FireServer(unpack(args))
 end
 local main = Window:CreateTab("Main", 0) -- Title, Image
-
-local Toggle = main:CreateToggle({
-    Name = "Auto drop MagicBean",
-    CurrentValue = false,
-    Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-    Callback = function(Value)
-        if Value then
-            AutoMagicBean = Value
-        end
-        while AutoMagicBean do
+AutoMagicBean = false
+local Button = main:CreateButton({
+    Name = "Turn on auto drop magic bean",
+    Callback = function()
+        AutoMagicBean = true
+        Notify("Auto drop magicbean toogle: ON")
+        while AutoMagicBean == true do
             Usemagicbean()
-            wait(5)
+            wait(2)
         end
     end,
  })
- local Toggle = main:CreateToggle({
+ local Button = main:CreateButton({
+    Name = "Turn off auto drop magic bean",
+    Callback = function()
+        AutoMagicBean = false
+        Notify("Auto drop magicbean toogle: OFF")
+        while AutoMagicBean == true do
+            Usemagicbean()
+            wait(2)
+        end
+    end,
+ })
+local Toggle = main:CreateToggle({
+    Name = "Turn auto drop magic bean",
+    CurrentValue = false,
+    Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        if Value == true then AutoMagicBean = true else WhiteScreen = false end
+        if AutoMagicBean == true then
+            Usemagicbean()
+            wait(2)
+        end
+    end
+ })
+local Toggle = main:CreateToggle({
     Name = "Enabled WhiteScreen",
     CurrentValue = false,
     Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
@@ -146,15 +167,17 @@ local Toggle = main:CreateToggle({
          
         game:GetService("ReplicatedStorage").Events.UpdatePlayerNPCState:FireServer(unpack(args))
         Notify("Successfuly dataloss please wait 60s before out")
+        Notify("Turn Off auto drop magic bean")
+        AutoMagicBean = false
         wait(60)
-        Notify("You can exit.")
+        Notify("Shutting Roblox...")
+        game:Shutdown();
     end,
  })
  local Button = main:CreateButton({
-    Name = "Rejoin Server",
+    Name = "Shutdown Roblox",
     Callback = function()
-        TeleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
-        Notify("Rejoin JobId: "..game.PlaceId.."JobID: "..game.JobId.." Successfuly.")
+        game:Shutdown()
     end,
  })
  local Button = main:CreateButton({
@@ -170,7 +193,7 @@ local Input = Tab:CreateInput({
    PlaceholderText = "Count",
    RemoveTextAfterFocusLost = false,
    Callback = function(input)
-        count = input
+        countitem = input
    end,
 })
 local Button = Tab:CreateButton({
@@ -193,115 +216,115 @@ local Button = Tab:CreateButton({
 local Button = Tab:CreateButton({
    Name = "Craft Blue Extract",
    Callback = function()
-         Craft(item.BlueExtract, count)
+         Craft(item.BlueExtract, countitem)
    end,
 })
 local Button = Tab:CreateButton({
     Name = "Craft Red Extract",
     Callback = function()
-         Craft(item.RedExtract, count)
+         Craft(item.RedExtract, countitem)
      end,
  })
  local Button = Tab:CreateButton({
     Name = "Craft Enzymes",
     Callback = function()
-         Craft(item.Enzymes,count)
+         Craft(item.Enzymes,countitem)
     end,
  })
  local Button = Tab:CreateButton({
     Name = "Craft Oil",
     Callback = function()
-        Craft(item.Oil,count)
+        Craft(item.Oil,countitem)
     end,
  })
  local Button = Tab:CreateButton({
     Name = "Craft Tropical Drink",
     Callback = function()
-        Craft(item.TropicalDrink,count)
+        Craft(item.TropicalDrink,countitem)
     end,
  })
  local Button = Tab:CreateButton({
     Name = "Craft Glitter",
     Callback = function()
-        Craft(item.Glitter,count)
+        Craft(item.Glitter,countitem)
     end,
  })
  local Button = Tab:CreateButton({
     Name = "Craft Glue",
     Callback = function()
-        Craft(item.Glue,count)
+        Craft(item.Glue,countitem)
     end,
  })
  local Button = Tab:CreateButton({
-    Name = "Craft Gumdrops",
+    Name = "Craft Gumdrop",
     Callback = function()
-        Craft(item.Gumdrops,count)
+        Craft(item.Gumdrop,countitem)
     end,
  })
  local Button = Tab:CreateButton({
     Name = "Craft Star Jelly",
     Callback = function()
-        Craft(item.StarJelly,count)
+        Craft(item.StarJelly,countitem)
     end,
  })
  local Button = Tab:CreateButton({
     Name = "Craft Purple Potion",
     Callback = function()
-        Craft(item.PurplePotion,count)
+        Craft(item.PurplePotion,countitem)
     end,
  })
  local Button = Tab:CreateButton({
     Name = "Craft Purple Potion",
     Callback = function()
-        Craft(item.PurplePotion,count)
+        Craft(item.PurplePotion,countitem)
     end,
  })
  local Button = Tab:CreateButton({
     Name = "Craft Soft Wax",
     Callback = function()
-        Craft(item.SoftWax,count)
+        Craft(item.SoftWax,countitem)
     end,
  })
  local Button = Tab:CreateButton({
     Name = "Craft Hard Wax",
     Callback = function()
-        Craft(item.HardWax,count)
+        Craft(item.HardWax,countitem)
     end,
  })
  local Button = Tab:CreateButton({
     Name = "Craft Swirled Wax",
     Callback = function()
-        Craft(item.SwirledWax,count)
+        Craft(item.SwirledWax,countitem)
     end,
  })
  local Button = Tab:CreateButton({
     Name = "Craft CausticWax",
     Callback = function()
-        Craft(item.CausticWax,count)
+        Craft(item.CausticWax,countitem)
     end,
  })
 local Button = Tab:CreateButton({
     Name = "Craft Field Dice",
     Callback = function()
-        Craft(item.FieldDice,count)
+        Craft(item.FieldDice,councountitemt)
     end,
  })
  local Button = Tab:CreateButton({
     Name = "Craft Smooth Dice",
     Callback = function()
-        Craft(item.SmoothDice,count)
+        Craft(item.SmoothDice,countitem)
     end,
  })
  local Button = Tab:CreateButton({
     Name = "Craft LoadedDice",
     Callback = function()
-        Craft(item.LoadedDice,count)
+        Craft(item.LoadedDice,countitem)
     end,
  })
  local Button = Tab:CreateButton({
     Name = "Craft Super Smoothie",
     Callback = function()
-        Craft(item.SuperSmoothie,count)
+        Craft(item.SuperSmoothie,countitem)
     end,
  })
  local OtherTab = Window:CreateTab("Other Hub", 4483362458) -- Title, Image
