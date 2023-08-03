@@ -174,18 +174,7 @@ local Toggle = main:CreateToggle({
         game:Shutdown();
     end,
  })
- local Button = main:CreateButton({
-    Name = "Shutdown Roblox",
-    Callback = function()
-        game:Shutdown()
-    end,
- })
- local Button = main:CreateButton({
-    Name = "Kicked Players",
-    Callback = function()
-        game.Players.LocalPlayer:Kick("Kicked From Hub")
-    end,
- })
+ 
 --Crafting
 local Tab = Window:CreateTab("Crafting", 0) -- Title, Image
 local Input = Tab:CreateInput({
