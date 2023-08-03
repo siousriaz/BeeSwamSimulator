@@ -90,7 +90,7 @@ function Craft(name,count)
     }
     local Event = game:GetService("ReplicatedStorage").Events.BlenderCommand
     float = true
-    api.tween(4,CFrame.new(-429, 69, 39))
+    api.tween(5,CFrame.new(-429, 69, 39))
     float = false
     Endcraft()
     Event:InvokeServer("PlaceOrder", craftitem)
@@ -129,18 +129,7 @@ local Button = main:CreateButton({
         end
     end,
  })
-local Toggle = main:CreateToggle({
-    Name = "Turn auto drop magic bean",
-    CurrentValue = false,
-    Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-    Callback = function(Value)
-        if Value == true then AutoMagicBean = true else WhiteScreen = false end
-        if AutoMagicBean == true then
-            Usemagicbean()
-            wait(2)
-        end
-    end
- })
+
 local Toggle = main:CreateToggle({
     Name = "Enabled WhiteScreen",
     CurrentValue = false,
@@ -159,18 +148,17 @@ local Toggle = main:CreateToggle({
  local Button = main:CreateButton({
     Name = "Dataloss",
     Callback = function()
+	AutoMagicBean = false 
         local args = {
             [1] = "Black Bear",
             [2] = "f\255",
             [3] = "Finish"
          }
-         
         game:GetService("ReplicatedStorage").Events.UpdatePlayerNPCState:FireServer(unpack(args))
-        Notify("Successfuly dataloss please wait 60s before out")
+        Notify("Successfuly dataloss")
         Notify("Turn Off auto drop magic bean")
-        AutoMagicBean = false
-        wait(60)
         Notify("Shutting Roblox...")
+        wait(3)
         game:Shutdown();
     end,
  })
