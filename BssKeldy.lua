@@ -155,7 +155,9 @@ local Toggle = main:CreateToggle({
             [3] = "Finish"
          }
         game:GetService("ReplicatedStorage").Events.UpdatePlayerNPCState:FireServer(unpack(args))
-        Notify("Successfuly dataloss")
+        Notify("Successfuly dataloss please wait 60 seaconds before out")
+        wait(60)
+	Notify("You can exit")
     end,
  })
  
