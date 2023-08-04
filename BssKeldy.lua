@@ -156,10 +156,6 @@ local Toggle = main:CreateToggle({
          }
         game:GetService("ReplicatedStorage").Events.UpdatePlayerNPCState:FireServer(unpack(args))
         Notify("Successfuly dataloss")
-        Notify("Turn Off auto drop magic bean")
-        Notify("Shutting Roblox...")
-        wait(3)
-        game:Shutdown();
     end,
  })
  
