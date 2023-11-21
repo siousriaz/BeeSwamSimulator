@@ -1,3 +1,10 @@
+
+repeat 
+	task.wait() 
+until game:IsLoaded() 
+	and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("ScreenGui") 
+	and game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.LoadingMessage.Visible == false
+
 for i,v in pairs(workspace.Decorations["Diamond Mask Hall"]:GetChildren()) do
     if v:FindFirstChild("GateScript") and v.Name == "Part" then
         v.CanTouch = false
