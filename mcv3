@@ -5643,7 +5643,7 @@ for i = 1,3 do
         customPlanterSections[cycleName][cycleStep].HarvestAmount = 
             customPlanterSections[cycleName].section:Slider("Field "..cycleStep.." Harvest %", function(newPercentage) 
                 macrov2["customPlanterSettings"][cycleName][cycleStep].harvestAmount = newPercentage 
-            end, {Min = 1, Max = 100, Default = 75, ExtraPixels = 231})
+            end, {Min = 1, Max = 100, Default = 100, ExtraPixels = 231})
 
         -- print("Updating")
         customPlanterSections[cycleName][cycleStep].Planter:Select("None")
