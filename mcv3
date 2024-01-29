@@ -1187,21 +1187,21 @@ getgenv().macrov2 = {
     },
     customPlanterSettings = {
         customPlanters1 = {
-            [1] = {planter = "", field = "", harvestAmount = 99},
+            [1] = {planter = "", field = "", harvestAmount = 100},
             [2] = {planter = "", field = "", harvestAmount = 99},
             [3] = {planter = "", field = "", harvestAmount = 99},
             [4] = {planter = "", field = "", harvestAmount = 99},
             [5] = {planter = "", field = "", harvestAmount = 99}
         },
         customPlanters2 = {
-            [1] = {planter = "", field = "", harvestAmount = 98},
+            [1] = {planter = "", field = "", harvestAmount = 100},
             [2] = {planter = "", field = "", harvestAmount = 99},
             [3] = {planter = "", field = "", harvestAmount = 1},
             [4] = {planter = "", field = "", harvestAmount = 0},
             [5] = {planter = "", field = "", harvestAmount = 99}
         },
         customPlanters3 = {
-            [1] = {planter = "", field = "", harvestAmount = 99},
+            [1] = {planter = "", field = "", harvestAmount = 100},
             [2] = {planter = "", field = "", harvestAmount = 99},
             [3] = {planter = "", field = "", harvestAmount = 99},
             [4] = {planter = "", field = "", harvestAmount = 99},
@@ -5648,7 +5648,7 @@ for i = 1,3 do
         -- print("Updating")
         customPlanterSections[cycleName][cycleStep].Planter:Select("None")
         customPlanterSections[cycleName][cycleStep].Field:Select("None")
-        customPlanterSections[cycleName][cycleStep].HarvestAmount:Set(75)
+        customPlanterSections[cycleName][cycleStep].HarvestAmount:Set(100)
         if cycleStep < 5 then
             createLabel(customPlanterSections[cycleName].section, "")
         end
