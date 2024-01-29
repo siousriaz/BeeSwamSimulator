@@ -1058,7 +1058,7 @@ getgenv().macrov2 = {
         faceCenter = false,
     },
     convertSettings = {
-        secondsBeforeConvert = 0,
+        secondsBeforeConvert = 30,
         convertat = 100,
         convertballoonat = 0,
         instantToggle = false,
@@ -1187,25 +1187,25 @@ getgenv().macrov2 = {
     },
     customPlanterSettings = {
         customPlanters1 = {
-            [1] = {planter = "", field = "", harvestAmount = 75},
-            [2] = {planter = "", field = "", harvestAmount = 75},
-            [3] = {planter = "", field = "", harvestAmount = 75},
-            [4] = {planter = "", field = "", harvestAmount = 75},
-            [5] = {planter = "", field = "", harvestAmount = 75}
+            [1] = {planter = "", field = "", harvestAmount = 100},
+            [2] = {planter = "", field = "", harvestAmount = 100},
+            [3] = {planter = "", field = "", harvestAmount = 100},
+            [4] = {planter = "", field = "", harvestAmount = 100},
+            [5] = {planter = "", field = "", harvestAmount = 100}
         },
         customPlanters2 = {
-            [1] = {planter = "", field = "", harvestAmount = 75},
-            [2] = {planter = "", field = "", harvestAmount = 75},
-            [3] = {planter = "", field = "", harvestAmount = 75},
-            [4] = {planter = "", field = "", harvestAmount = 75},
-            [5] = {planter = "", field = "", harvestAmount = 75}
+            [1] = {planter = "", field = "", harvestAmount = 100},
+            [2] = {planter = "", field = "", harvestAmount = 100},
+            [3] = {planter = "", field = "", harvestAmount = 100},
+            [4] = {planter = "", field = "", harvestAmount = 100},
+            [5] = {planter = "", field = "", harvestAmount = 100}
         },
         customPlanters3 = {
-            [1] = {planter = "", field = "", harvestAmount = 75},
-            [2] = {planter = "", field = "", harvestAmount = 75},
-            [3] = {planter = "", field = "", harvestAmount = 75},
-            [4] = {planter = "", field = "", harvestAmount = 75},
-            [5] = {planter = "", field = "", harvestAmount = 75}
+            [1] = {planter = "", field = "", harvestAmount = 100},
+            [2] = {planter = "", field = "", harvestAmount = 100},
+            [3] = {planter = "", field = "", harvestAmount = 100},
+            [4] = {planter = "", field = "", harvestAmount = 100},
+            [5] = {planter = "", field = "", harvestAmount = 100}
         },
     },
     alertSettings = {
