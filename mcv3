@@ -6353,12 +6353,6 @@ end
 
 print("[Macro V3]:", "Loading configuration file...")
 
-loadConfig(player.Name)
-
-if _G.debugging then
-    warn("Loading config donee. Waiting..")
-    task.wait(5)
-end
 
 
 
@@ -6481,3 +6475,10 @@ LPH_NO_VIRTUALIZE(function()
 end)()
 
 print("[Macro V3]:", "Executed Successfully!")
+task.wait(3)
+loadConfig(player.Name)
+
+if _G.debugging then
+    warn("Loading config donee. Waiting..")
+    task.wait(5)
+end
