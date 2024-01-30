@@ -6074,20 +6074,6 @@ for i, v in pairs(Workspace.Particles:GetChildren()) do
     end
 end
 
-for i,instance in pairs(Workspace.Particles.Folder2:GetChildren()) do
-    if instance.Name == "Sprout" then
-        local sproutRarity = sproutRarities[instance.Color]
-        local sproutField = findField(instance.Position)
-        --[[print(sproutRarity)]]
-        local sproutId = math.round(tick()*10)/10
-        local temp = Instance.new("StringValue",instance)
-        temp.Name = "SproutId"
-        temp.Value = sproutId
-        if sproutRarity ~= "Moon" then
-            temptable.sproutsTable[sproutId] = {Model = instance, Field = sproutField}
-        end
-    end
-end
 
 -- for i,v in pairs(temptable.tokenpath:GetChildren()) do
 --     table.insert(temptable.tokensTable, v)
