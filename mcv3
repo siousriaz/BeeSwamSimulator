@@ -6327,9 +6327,7 @@ task.spawn(function()
             v.Transparency = 0.3
         end
     end
-    for _,v in pairs(Workspace.MonsterBarriers:GetChildren()) do
-        v.CanCollide = false
-    end
+    
     for _,v in pairs(Workspace.Paths:GetChildren()) do
         v.CanCollide = false
     end
