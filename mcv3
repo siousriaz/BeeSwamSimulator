@@ -6123,16 +6123,7 @@ table.insert(Listeners,Workspace.Particles.ChildRemoved:Connect(function(instanc
 end))
 
 
-table.insert(Listeners,Workspace.Particles.Folder2.ChildRemoved:Connect(function(instance)
-    task.wait()
-    if instance.Name ~= "Sprout" then return end
-	local sproutId = instance:FindFirstChild("SproutId")
-    if sproutId then
-        temptable.sproutsTable[sproutId.Value] = nil
-    else
-        -- warn("no sprout id :skull:")
-    end
-end))
+
 
 table.insert(Listeners,Workspace.Monsters.ChildAdded:Connect(function(monster)
     task.wait()
