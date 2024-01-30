@@ -1,3 +1,4 @@
+
 repeat 
 	task.wait() 
 until game:IsLoaded() 
@@ -1058,7 +1059,7 @@ getgenv().macrov2 = {
         faceCenter = false,
     },
     convertSettings = {
-        secondsBeforeConvert = 30,
+        secondsBeforeConvert = 0,
         convertat = 100,
         convertballoonat = 0,
         instantToggle = false,
@@ -1187,25 +1188,25 @@ getgenv().macrov2 = {
     },
     customPlanterSettings = {
         customPlanters1 = {
-            [1] = {planter = "", field = "", harvestAmount = 100},
-            [2] = {planter = "", field = "", harvestAmount = 99},
-            [3] = {planter = "", field = "", harvestAmount = 99},
-            [4] = {planter = "", field = "", harvestAmount = 99},
-            [5] = {planter = "", field = "", harvestAmount = 99}
+            [1] = {planter = "", field = "", harvestAmount = 75},
+            [2] = {planter = "", field = "", harvestAmount = 75},
+            [3] = {planter = "", field = "", harvestAmount = 75},
+            [4] = {planter = "", field = "", harvestAmount = 75},
+            [5] = {planter = "", field = "", harvestAmount = 75}
         },
         customPlanters2 = {
-            [1] = {planter = "", field = "", harvestAmount = 100},
-            [2] = {planter = "", field = "", harvestAmount = 99},
-            [3] = {planter = "", field = "", harvestAmount = 1},
-            [4] = {planter = "", field = "", harvestAmount = 0},
-            [5] = {planter = "", field = "", harvestAmount = 99}
+            [1] = {planter = "", field = "", harvestAmount = 75},
+            [2] = {planter = "", field = "", harvestAmount = 75},
+            [3] = {planter = "", field = "", harvestAmount = 75},
+            [4] = {planter = "", field = "", harvestAmount = 75},
+            [5] = {planter = "", field = "", harvestAmount = 75}
         },
         customPlanters3 = {
-            [1] = {planter = "", field = "", harvestAmount = 100},
-            [2] = {planter = "", field = "", harvestAmount = 99},
-            [3] = {planter = "", field = "", harvestAmount = 99},
-            [4] = {planter = "", field = "", harvestAmount = 99},
-            [5] = {planter = "", field = "", harvestAmount = 99}
+            [1] = {planter = "", field = "", harvestAmount = 75},
+            [2] = {planter = "", field = "", harvestAmount = 75},
+            [3] = {planter = "", field = "", harvestAmount = 75},
+            [4] = {planter = "", field = "", harvestAmount = 75},
+            [5] = {planter = "", field = "", harvestAmount = 75}
         },
     },
     alertSettings = {
@@ -5643,12 +5644,12 @@ for i = 1,3 do
         customPlanterSections[cycleName][cycleStep].HarvestAmount = 
             customPlanterSections[cycleName].section:Slider("Field "..cycleStep.." Harvest %", function(newPercentage) 
                 macrov2["customPlanterSettings"][cycleName][cycleStep].harvestAmount = newPercentage 
-            end, {Min = 1, Max = 100, Default = 100, ExtraPixels = 231})
+            end, {Min = 1, Max = 100, Default = 75, ExtraPixels = 231})
 
         -- print("Updating")
         customPlanterSections[cycleName][cycleStep].Planter:Select("None")
         customPlanterSections[cycleName][cycleStep].Field:Select("None")
-        customPlanterSections[cycleName][cycleStep].HarvestAmount:Set(100)
+        customPlanterSections[cycleName][cycleStep].HarvestAmount:Set(75)
         if cycleStep < 5 then
             createLabel(customPlanterSections[cycleName].section, "")
         end
@@ -6074,6 +6075,20 @@ for i, v in pairs(Workspace.Particles:GetChildren()) do
     end
 end
 
+for i,instance in pairs(Workspace.Particles.Folder2:GetChildren()) do
+    if instance.Name == "Sprout" then
+        local sproutRarity = sproutRarities[instance.Color]
+        local sproutField = findField(instance.Position)
+        --[[print(sproutRarity)]]
+        local sproutId = math.round(tick()*10)/10
+        local temp = Instance.new("StringValue",instance)
+        temp.Name = "SproutId"
+        temp.Value = sproutId
+        if sproutRarity ~= "Moon" then
+            temptable.sproutsTable[sproutId] = {Model = instance, Field = sproutField}
+        end
+    end
+end
 
 -- for i,v in pairs(temptable.tokenpath:GetChildren()) do
 --     table.insert(temptable.tokensTable, v)
@@ -6122,8 +6137,31 @@ table.insert(Listeners,Workspace.Particles.ChildRemoved:Connect(function(instanc
 	end
 end))
 
+table.insert(Listeners,Workspace.Particles.Folder2.ChildAdded:Connect(function(instance)
+    task.wait()
+    if instance.Name ~= "Sprout" then return end
+	local sproutRarity = sproutRarities[instance.Color]
+    local sproutField = findField(instance.Position)
+    -- print("Spawned sprout rarity:", sproutRarity)
+    local sproutId = math.round(tick()*10)/10
+    local temp = Instance.new("StringValue",instance)
+    temp.Name = "SproutId"
+    temp.Value = sproutId
+    if sproutRarity ~= "Moon" then
+        temptable.sproutsTable[sproutId] = {Model = instance, Field = sproutField}
+    end
+end))
 
-
+table.insert(Listeners,Workspace.Particles.Folder2.ChildRemoved:Connect(function(instance)
+    task.wait()
+    if instance.Name ~= "Sprout" then return end
+	local sproutId = instance:FindFirstChild("SproutId")
+    if sproutId then
+        temptable.sproutsTable[sproutId.Value] = nil
+    else
+        -- warn("no sprout id :skull:")
+    end
+end))
 
 table.insert(Listeners,Workspace.Monsters.ChildAdded:Connect(function(monster)
     task.wait()
@@ -6316,6 +6354,12 @@ end
 
 print("[Macro V3]:", "Loading configuration file...")
 
+loadConfig(player.Name)
+
+if _G.debugging then
+    warn("Loading config donee. Waiting..")
+    task.wait(5)
+end
 
 
 
@@ -6327,7 +6371,9 @@ task.spawn(function()
             v.Transparency = 0.3
         end
     end
-    
+    for _,v in pairs(Workspace.MonsterBarriers:GetChildren()) do
+        v.CanCollide = false
+    end
     for _,v in pairs(Workspace.Paths:GetChildren()) do
         v.CanCollide = false
     end
@@ -6436,10 +6482,3 @@ LPH_NO_VIRTUALIZE(function()
 end)()
 
 print("[Macro V3]:", "Executed Successfully!")
-task.wait(3)
-loadConfig(player.Name)
-
-if _G.debugging then
-    warn("Loading config donee. Waiting..")
-    task.wait(5)
-end
