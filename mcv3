@@ -6354,12 +6354,7 @@ end
 
 print("[Macro V3]:", "Loading configuration file...")
 
-loadConfig(player.Name)
 
-if _G.debugging then
-    warn("Loading config donee. Waiting..")
-    task.wait(5)
-end
 
 
 
@@ -6471,7 +6466,12 @@ killMV2.Event:connect(function()
         pcall(function() listener:Disconnect() end)
     end
 end)
+loadConfig(player.Name)
 
+if _G.debugging then
+    warn("Loading config donee. Waiting..")
+    task.wait(5)
+end
 LPH_NO_VIRTUALIZE(function() 
     while task.wait(.5) do
         if currentMacroV2LoadedAt ~= macroV2LoadedAt then
