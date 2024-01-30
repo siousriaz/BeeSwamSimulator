@@ -6122,20 +6122,6 @@ table.insert(Listeners,Workspace.Particles.ChildRemoved:Connect(function(instanc
 	end
 end))
 
-table.insert(Listeners,Workspace.Particles.Folder2.ChildAdded:Connect(function(instance)
-    task.wait()
-    if instance.Name ~= "Sprout" then return end
-	local sproutRarity = sproutRarities[instance.Color]
-    local sproutField = findField(instance.Position)
-    -- print("Spawned sprout rarity:", sproutRarity)
-    local sproutId = math.round(tick()*10)/10
-    local temp = Instance.new("StringValue",instance)
-    temp.Name = "SproutId"
-    temp.Value = sproutId
-    if sproutRarity ~= "Moon" then
-        temptable.sproutsTable[sproutId] = {Model = instance, Field = sproutField}
-    end
-end))
 
 table.insert(Listeners,Workspace.Particles.Folder2.ChildRemoved:Connect(function(instance)
     task.wait()
