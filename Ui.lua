@@ -142,7 +142,7 @@ local Event = game:GetService("ReplicatedStorage").Events.BlenderCommand
 --==================  SCROLLING FRAME CHO CÁC NÚT CRAFT  ==================
 
 local scrollFrame = Instance.new("ScrollingFrame")
-scrollFrame.Size = UDim2.new(0, 260, 0, 180) -- giảm chiều cao theo tỉ lệ mainFrame
+scrollFrame.Size = UDim2.new(0, 240, 0, 180) -- giảm chiều cao theo tỉ lệ mainFrame
 scrollFrame.Position = UDim2.new(0, 20, 0, 230) -- đặt dưới nút End Craft
 scrollFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 scrollFrame.BorderSizePixel = 0
