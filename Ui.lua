@@ -1,6 +1,3 @@
---====================================================--
---==================  UI CREATION  ===================--
---====================================================--
 
 local player = game.Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
@@ -37,8 +34,8 @@ fpsLabel.Parent = gui
 --=================  MAIN FRAME NHỎ GỌN  ===================--
 
 local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 300, 0, 450) -- nhỏ hơn để vừa màn hình
-mainFrame.Position = UDim2.new(1, -320, 0, 70) -- vừa màn hình
+mainFrame.Size = UDim2.new(0, 300, 0, 420) -- giảm chiều rộng và chiều cao
+mainFrame.Position = UDim2.new(1, -320, 0, 80) -- vừa màn hình
 mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 mainFrame.Visible = false
 mainFrame.Parent = gui
@@ -145,8 +142,8 @@ local Event = game:GetService("ReplicatedStorage").Events.BlenderCommand
 --==================  SCROLLING FRAME CHO CÁC NÚT CRAFT  ==================
 
 local scrollFrame = Instance.new("ScrollingFrame")
-scrollFrame.Size = UDim2.new(0, 260, 0, 240) -- vừa với mainFrame
-scrollFrame.Position = UDim2.new(0, 20, 0, 230) -- dưới End Craft
+scrollFrame.Size = UDim2.new(0, 260, 0, 180) -- giảm chiều cao theo tỉ lệ mainFrame
+scrollFrame.Position = UDim2.new(0, 20, 0, 230) -- đặt dưới nút End Craft
 scrollFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 scrollFrame.BorderSizePixel = 0
 scrollFrame.ScrollBarThickness = 10
