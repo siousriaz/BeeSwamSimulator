@@ -198,3 +198,43 @@ task.spawn(function()
 		task.wait(1)
 	end
 end)
+--==================  SCROLLING FRAME CHO CÁC NÚT CRAFT  ==================
+
+-- Tạo ScrollFrame vừa khít mainFrame
+local scrollFrame = Instance.new("ScrollingFrame")
+scrollFrame.Size = UDim2.new(0, 300, 0, 260) -- chiều rộng trừ padding, chiều cao phù hợp
+scrollFrame.Position = UDim2.new(0, 25, 0, 250) -- dưới CountBox/CountItemBox và End Craft
+scrollFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+scrollFrame.BorderSizePixel = 0
+scrollFrame.ScrollBarThickness = 10
+scrollFrame.Parent = mainFrame
+
+-- Layout để xếp các nút theo chiều dọc
+local uiLayout = Instance.new("UIListLayout")
+uiLayout.Padding = UDim.new(0, 5)
+uiLayout.SortOrder = Enum.SortOrder.LayoutOrder
+uiLayout.Parent = scrollFrame
+
+-- Di chuyển các nút craft vào ScrollFrame
+for _, child in ipairs(mainFrame:GetChildren()) do
+	if child:IsA("TextButton") and child.Text:match("^Craft") then
+		for _, recipeName in ipairs(craftItems) do
+			if child.Text == "Craft " .. recipeName then
+				child.Parent = scrollFrame
+				child.Size = UDim2.new(1, 0, 0, 35) -- full width ScrollFrame
+				break
+			end
+		end
+	end
+end
+
+-- Cập nhật CanvasSize để scroll vừa đủ
+local function updateCanvasSize()
+	local layout = scrollFrame:FindFirstChildOfClass("UIListLayout")
+	if layout then
+		scrollFrame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
+	end
+end
+
+updateCanvasSize()
+scrollFrame:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateCanvasSize)
