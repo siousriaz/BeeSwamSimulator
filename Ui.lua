@@ -1,4 +1,7 @@
---yy--
+--====================================================--
+--==================  UI CREATION  ===================--
+--====================================================--
+
 local player = game.Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
@@ -31,11 +34,11 @@ fpsLabel.TextSize = 18
 fpsLabel.Text = "FPS: ..."
 fpsLabel.Parent = gui
 
---=================  MAIN FRAME NHỎ GỌN  ===================--
+--=================  MAIN FRAME  ===================--
 
 local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 300, 0, 420) -- giảm chiều rộng và chiều cao
-mainFrame.Position = UDim2.new(1, -320, 0, 80) -- vừa màn hình
+mainFrame.Size = UDim2.new(0, 300, 0, 520)
+mainFrame.Position = UDim2.new(1, -310, 0, 90)
 mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 mainFrame.Visible = false
 mainFrame.Parent = gui
@@ -56,12 +59,12 @@ title.Font = Enum.Font.SourceSansBold
 title.TextSize = 26
 title.Parent = mainFrame
 
---=====================  COUNT BOX  ==================--
+--=====================  COUNT BOX  ==================
 
 local countBox = Instance.new("TextBox")
 countBox.Name = "count"
-countBox.Size = UDim2.new(0, 260, 0, 35)
-countBox.Position = UDim2.new(0, 20, 0, 50)
+countBox.Size = UDim2.new(0, 250, 0, 40)
+countBox.Position = UDim2.new(0, 25, 0, 50)
 countBox.BackgroundColor3 = Color3.fromRGB(50,50,50)
 countBox.TextColor3 = Color3.new(1,1,1)
 countBox.PlaceholderText = "Count"
@@ -69,11 +72,11 @@ countBox.Font = Enum.Font.SourceSans
 countBox.TextSize = 20
 countBox.Parent = mainFrame
 
---==================  COUNT ITEM BOX  =================--
+--==================  COUNT ITEM BOX  ===============
 
 local countItemLabel = Instance.new("TextLabel")
 countItemLabel.Size = UDim2.new(0, 100, 0, 30)
-countItemLabel.Position = UDim2.new(0, 20, 0, 100)
+countItemLabel.Position = UDim2.new(0, 25, 0, 110)
 countItemLabel.BackgroundTransparency = 1
 countItemLabel.Text = "Count item:"
 countItemLabel.TextColor3 = Color3.new(1,1,1)
@@ -83,7 +86,7 @@ countItemLabel.Parent = mainFrame
 
 local countItemBox = Instance.new("TextBox")
 countItemBox.Size = UDim2.new(0, 150, 0, 30)
-countItemBox.Position = UDim2.new(0, 120, 0, 100)
+countItemBox.Position = UDim2.new(0, 130, 0, 110)
 countItemBox.BackgroundColor3 = Color3.fromRGB(50,50,50)
 countItemBox.TextColor3 = Color3.new(1,1,1)
 countItemBox.PlaceholderText = "Nhập số..."
@@ -92,8 +95,8 @@ countItemBox.TextSize = 18
 countItemBox.Parent = mainFrame
 
 local resultLabel = Instance.new("TextLabel")
-resultLabel.Size = UDim2.new(0, 260, 0, 30)
-resultLabel.Position = UDim2.new(0, 20, 0, 140)
+resultLabel.Size = UDim2.new(0, 250, 0, 30)
+resultLabel.Position = UDim2.new(0, 25, 0, 150)
 resultLabel.BackgroundTransparency = 1
 resultLabel.Text = "Kết quả: 0"
 resultLabel.TextColor3 = Color3.new(1,1,1)
@@ -101,19 +104,18 @@ resultLabel.Font = Enum.Font.SourceSansBold
 resultLabel.TextSize = 20
 resultLabel.Parent = mainFrame
 
--- Auto update result
 countItemBox:GetPropertyChangedSignal("Text"):Connect(function()
-	local num = tonumber(countItemBox.Text)
-	if num then
-		resultLabel.Text = "Kết quả: " .. tostring(num / 50)
-	end
+    local num = tonumber(countItemBox.Text)
+    if num then
+        resultLabel.Text = "Kết quả: " .. tostring(num / 50)
+    end
 end)
 
---===================  END CRAFT BTN  ===================--
+--===================  END CRAFT BTN  =================
 
 local endCraftBtn = Instance.new("TextButton")
-endCraftBtn.Size = UDim2.new(0, 260, 0, 40)
-endCraftBtn.Position = UDim2.new(0, 20, 0, 180)
+endCraftBtn.Size = UDim2.new(0, 250, 0, 40)
+endCraftBtn.Position = UDim2.new(0, 25, 0, 200)
 endCraftBtn.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
 endCraftBtn.TextColor3 = Color3.new(1,1,1)
 endCraftBtn.Text = "End Craft"
@@ -121,83 +123,73 @@ endCraftBtn.Font = Enum.Font.SourceSansBold
 endCraftBtn.TextSize = 22
 endCraftBtn.Parent = mainFrame
 
---==================  CRAFT BUTTONS  ===================--
-
-local craftItems = {
-	"BlueExtract",
-	"RedExtract",
-	"Oil",
-	"Enzymes",
-	"Glue",
-	"Glitter",
-	"PurplePotion",
-	"SuperSmoothie",
-	"TropicalDrink",
-	"StarJelly",
-	"Gumdrops"
-}
-
-local Event = game:GetService("ReplicatedStorage").Events.BlenderCommand
-
---==================  SCROLLING FRAME CHO CÁC NÚT CRAFT  ==================
+--==================  SCROLL FRAME CHO NÚT CRAFT ==================
 
 local scrollFrame = Instance.new("ScrollingFrame")
-scrollFrame.Size = UDim2.new(0, 236, 0, 180) -- giảm chiều cao theo tỉ lệ mainFrame
-scrollFrame.Position = UDim2.new(0, 20, 0, 230) -- đặt dưới nút End Craft
-scrollFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+scrollFrame.Size = UDim2.new(0, 250, 0, 260)
+scrollFrame.Position = UDim2.new(0, 25, 0, 250)
+scrollFrame.BackgroundColor3 = Color3.fromRGB(40,40,40)
 scrollFrame.BorderSizePixel = 0
 scrollFrame.ScrollBarThickness = 10
 scrollFrame.Parent = mainFrame
 
 local uiLayout = Instance.new("UIListLayout")
-uiLayout.Padding = UDim.new(0, 5)
+uiLayout.Padding = UDim.new(0,5)
 uiLayout.SortOrder = Enum.SortOrder.LayoutOrder
 uiLayout.Parent = scrollFrame
 
--- Tạo nút craft trong ScrollFrame
-for i, recipeName in ipairs(craftItems) do
-	local btn = Instance.new("TextButton")
-	btn.Size = UDim2.new(1, 0, 0, 35)
-	btn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-	btn.TextColor3 = Color3.new(1,1,1)
-	btn.Text = "Craft " .. recipeName
-	btn.Font = Enum.Font.SourceSansBold
-	btn.TextSize = 20
-	btn.LayoutOrder = i
-	btn.Parent = scrollFrame
+--==================  CRAFT BUTTONS  ==================
 
-	btn.MouseButton1Click:Connect(function()
-		local count = tonumber(countBox.Text) or 1
-		local args1 = "PlaceOrder"
-		local args2 = {["Recipe"] = recipeName, ["Count"] = count}
-		Event:InvokeServer(args1, args2)
-	end)
+local craftItems = {
+    "BlueExtract","RedExtract","Oil","Enzymes","Glue",
+    "Glitter","PurplePotion","SuperSmoothie","TropicalDrink",
+    "StarJelly","Gumdrops"
+}
+
+local Event = game:GetService("ReplicatedStorage").Events.BlenderCommand
+
+for i, recipeName in ipairs(craftItems) do
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(1, 0, 0, 35) -- full width ScrollFrame
+    btn.BackgroundColor3 = Color3.fromRGB(60,60,60)
+    btn.TextColor3 = Color3.new(1,1,1)
+    btn.Text = "Craft "..recipeName
+    btn.Font = Enum.Font.SourceSansBold
+    btn.TextSize = 20
+    btn.Parent = scrollFrame
+
+    btn.MouseButton1Click:Connect(function()
+        local count = tonumber(countBox.Text) or 1
+        local args1 = "PlaceOrder"
+        local args2 = {["Recipe"]=recipeName, ["Count"]=count}
+        Event:InvokeServer(args1,args2)
+    end)
 end
 
--- Cập nhật CanvasSize để scroll vừa đủ
+-- Auto update CanvasSize
 local function updateCanvasSize()
-	local layout = scrollFrame:FindFirstChildOfClass("UIListLayout")
-	if layout then
-		scrollFrame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
-	end
+    local layout = scrollFrame:FindFirstChildOfClass("UIListLayout")
+    if layout then
+        scrollFrame.CanvasSize = UDim2.new(0,0,0,layout.AbsoluteContentSize.Y)
+    end
 end
 
 updateCanvasSize()
 scrollFrame:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateCanvasSize)
 
---==================  OPEN/CLOSE TOGGLE  ===================--
+--==================  OPEN/CLOSE TOGGLE ==================
 
 toggle.MouseButton1Click:Connect(function()
-	mainFrame.Visible = not mainFrame.Visible
-	toggle.Text = mainFrame.Visible and "Close" or "Open"
+    mainFrame.Visible = not mainFrame.Visible
+    toggle.Text = mainFrame.Visible and "Close" or "Open"
 end)
 
---====================  FPS TRACKER  ===================--
+--====================  FPS TRACKER ==================
 
 task.spawn(function()
-	while true do
-		local fps = math.floor(1 / game:GetService("RunService").RenderStepped:Wait())
-		fpsLabel.Text = "FPS: " .. fps
-		task.wait(1)
-	end
+    while true do
+        local fps = math.floor(1 / game:GetService("RunService").RenderStepped:Wait())
+        fpsLabel.Text = "FPS: "..fps
+        task.wait(1)
+    end
 end)
