@@ -109,7 +109,7 @@ resultLabel.Parent = mainFrame
 countItemBox:GetPropertyChangedSignal("Text"):Connect(function()
     local num = tonumber(countItemBox.Text)
     if num then
-        resultLabel.Text = "Kết quả: " .. tostring(num / 50)
+        resultLabel.Text = "Kết quả: " .. tostring(num / 50) .. "or" .. tostring(num / 25) .. "Mooncharm"
     end
 end)
 
