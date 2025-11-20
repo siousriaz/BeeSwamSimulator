@@ -27,11 +27,13 @@ toggle.Parent = gui
 local fpsLabel = Instance.new("TextLabel")
 fpsLabel.Size = UDim2.new(0, 200, 0, 25)
 fpsLabel.Position = UDim2.new(1, -210, 0, 55)
-fpsLabel.BackgroundTransparency = 1
-fpsLabel.TextColor3 = Color3.new(1,1,1)
 fpsLabel.Font = Enum.Font.SourceSansBold
 fpsLabel.TextSize = 18
 fpsLabel.Text = "FPS: ..."
+fpsLabel.BackgroundTransparency = 0.5
+fpsLabel.BackgroundColor3 = Color3.fromRGB(0,0,0)
+fpsLabel.TextColor3 = Color3.fromRGB(0,255,0)
+fpsLabel.TextScaled = true
 fpsLabel.Parent = gui
 
 --=================  MAIN FRAME  ===================--
