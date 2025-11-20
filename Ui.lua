@@ -27,13 +27,11 @@ toggle.Parent = gui
 local fpsLabel = Instance.new("TextLabel")
 fpsLabel.Size = UDim2.new(0, 200, 0, 25)
 fpsLabel.Position = UDim2.new(1, -210, 0, 55)
+fpsLabel.BackgroundTransparency = 1
+fpsLabel.TextColor3 = Color3.new(1,1,1)
 fpsLabel.Font = Enum.Font.SourceSansBold
 fpsLabel.TextSize = 18
 fpsLabel.Text = "FPS: ..."
-fpsLabel.BackgroundTransparency = 0.5
-fpsLabel.BackgroundColor3 = Color3.fromRGB(0,0,0)
-fpsLabel.TextColor3 = Color3.fromRGB(0,255,0)
-fpsLabel.TextScaled = true
 fpsLabel.Parent = gui
 
 --=================  MAIN FRAME  ===================--
@@ -167,6 +165,7 @@ for i, recipeName in ipairs(craftItems) do
         Event:InvokeServer(args1,args2)
     end)
 end
+
 -- Auto update CanvasSize
 local function updateCanvasSize()
     local layout = scrollFrame:FindFirstChildOfClass("UIListLayout")
@@ -213,7 +212,7 @@ end)
 
 endCraftBtn.MouseButton1Click:Connect(function()
     float = true
-    game:GetService("TweenService"):Create(lp.Character.HumanoidRootPart,TweenInfo.new(6),{CFrame=CFrame.new(-429,69,39)}):Play()
+    game:GetService("TweenService"):Create(lp.Character.HumanoidRootPart,TweenInfo.new(4),{CFrame=CFrame.new(-429,69,39)}):Play()
     float = false
     game.ReplicatedStorage.Events.BlenderCommand:InvokeServer("StopOrder")
 end)
