@@ -193,22 +193,6 @@ task.spawn(function()
         task.wait(1)
     end
 end)
-float = false
-local floatpad = Instance.new("Part", game:GetService("Workspace"))
-floatpad.CanCollide = false
-floatpad.Anchored = true
-floatpad.Transparency = 1
-floatpad.Name = "FloatPad"
-
-game:GetService('RunService').Heartbeat:connect(function() 
-    if float == true then
-         game.Players.LocalPlayer.Character.Humanoid.BodyTypeScale.Value = 0 
-         floatpad.CanCollide = true 
-         floatpad.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position.X, game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y-3.75, game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z) task.wait(0)  
-        else 
-            floatpad.CanCollide = false 
-        end
-end)
 
 endCraftBtn.MouseButton1Click:Connect(function()
     float = true
