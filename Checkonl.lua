@@ -8,7 +8,7 @@ screenGui.Parent = PlayerGui
 
 local label = Instance.new("TextLabel")
 label.Size = UDim2.new(0, 120, 0, 30)
-label.Position = UDim2.new(1, -130, 1, -40) -- góc dưới phải
+label.Position = Position = UDim2.new(1, -210, 0, 85) -- nằm dưới FPS (55 + 30)
 label.BackgroundTransparency = 0.5
 label.BackgroundColor3 = Color3.fromRGB(0,0,0)
 label.TextColor3 = Color3.fromRGB(0,255,0)
