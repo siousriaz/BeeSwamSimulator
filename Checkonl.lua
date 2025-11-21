@@ -35,7 +35,7 @@ end
 
 if fileIndex ~= nil then
     -- Cập nhật label Online: X
-    label.Text = "Online: " .. fileIndex
+    label.Text = player.Name .. ": " .. fileIndex
 
     -- Vòng autorejoin
     local update = true
