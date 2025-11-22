@@ -1,3 +1,5 @@
+settings().Rendering.QualityLevel = "Level01"
+UserSettings().GameSettings.MasterVolume = 0
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local PlayerGui = player:WaitForChild("PlayerGui")
