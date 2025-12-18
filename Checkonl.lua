@@ -44,12 +44,6 @@ if fileIndex ~= nil then
     game:GetService("GuiService").ErrorMessageChanged:Connect(function()
         update = false
     end)
-
-    repeat task.wait()
-    until game:IsLoaded()
-        and PlayerGui:FindFirstChild("ScreenGui")
-        and PlayerGui.ScreenGui.LoadingMessage.Visible == false
-
     while update do
         writefile("autorejoin" .. fileIndex .. ".txt", tostring(os.time()))
         task.wait(1)
