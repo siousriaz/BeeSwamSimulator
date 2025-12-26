@@ -2,7 +2,12 @@
 --==================  UI CREATION  ===================--
 --====================================================--
 
-local player = game.Players.LocalPlayer
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
 local gui = Instance.new("ScreenGui")
@@ -39,14 +44,13 @@ fpsLabel.Parent = gui
 --=================  MAIN FRAME  ===================--
 
 local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 300, 0, 520)
+mainFrame.Size = UDim2.new(0, 300, 0, 620)
 mainFrame.Position = UDim2.new(1, -310, 0, 90)
 mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 mainFrame.Visible = false
 mainFrame.Parent = gui
-mainFrame.Draggable = true
 mainFrame.Active = true
-mainFrame.Selectable = true
+mainFrame.Draggable = true
 
 local corner = Instance.new("UICorner")
 corner.Parent = mainFrame
@@ -109,7 +113,7 @@ resultLabel.Parent = mainFrame
 countItemBox:GetPropertyChangedSignal("Text"):Connect(function()
     local num = tonumber(countItemBox.Text)
     if num then
-        resultLabel.Text = "Kết quả: " .. tostring(num / 50) .. "or" .. tostring(num / 25) .. "Mooncharm"
+        resultLabel.Text = "Kết quả: " .. tostring(num / 50) .. " or " .. tostring(num / 25) .. " Mooncharm"
     end
 end)
 
@@ -125,11 +129,80 @@ endCraftBtn.Font = Enum.Font.SourceSansBold
 endCraftBtn.TextSize = 22
 endCraftBtn.Parent = mainFrame
 
+endCraftBtn.MouseButton1Click:Connect(function()
+    ReplicatedStorage.Events.BlenderCommand:InvokeServer("StopOrder")
+end)
+
+--===================  END BY TICKETS  =================
+
+local endByTicketBtn = Instance.new("TextButton")
+endByTicketBtn.Size = UDim2.new(0, 250, 0, 40)
+endByTicketBtn.Position = UDim2.new(0, 25, 0, 245)
+endByTicketBtn.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+endByTicketBtn.TextColor3 = Color3.new(1,1,1)
+endByTicketBtn.Text = "End by Tickets"
+endByTicketBtn.Font = Enum.Font.SourceSansBold
+endByTicketBtn.TextSize = 22
+endByTicketBtn.Parent = mainFrame
+
+endByTicketBtn.MouseButton1Click:Connect(function()
+    ReplicatedStorage.Events.BlenderCommand:InvokeServer("SpeedUpOrder")
+end)
+
+--===================  TWEEN BUTTONS  =================
+
+local function tweenTo(targetCFrame)
+    local character = player.Character or player.CharacterAdded:Wait()
+    local hrp = character:WaitForChild("HumanoidRootPart")
+
+    local distance = (hrp.Position - targetCFrame.Position).Magnitude
+    local speed = 70
+    local time = distance / speed
+
+    local tweenInfo = TweenInfo.new(time, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+    local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+    hrp.Anchored = true
+    tween:Play()
+    tween.Completed:Wait()
+    hrp.Anchored = false
+end
+
+-- Blender
+local blenderBtn = Instance.new("TextButton")
+blenderBtn.Size = UDim2.new(0, 250, 0, 40)
+blenderBtn.Position = UDim2.new(0, 25, 0, 290)
+blenderBtn.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
+blenderBtn.TextColor3 = Color3.new(1,1,1)
+blenderBtn.Text = "Blender"
+blenderBtn.Font = Enum.Font.SourceSansBold
+blenderBtn.TextSize = 22
+blenderBtn.Parent = mainFrame
+
+blenderBtn.MouseButton1Click:Connect(function()
+    tweenTo(CFrame.new(-424, 69, 37))
+end)
+
+-- Diamond Mask
+local diamondBtn = Instance.new("TextButton")
+diamondBtn.Size = UDim2.new(0, 250, 0, 40)
+diamondBtn.Position = UDim2.new(0, 25, 0, 335)
+diamondBtn.BackgroundColor3 = Color3.fromRGB(0, 180, 180)
+diamondBtn.TextColor3 = Color3.new(1,1,1)
+diamondBtn.Text = "DiamondMask"
+diamondBtn.Font = Enum.Font.SourceSansBold
+diamondBtn.TextSize = 22
+diamondBtn.Parent = mainFrame
+
+diamondBtn.MouseButton1Click:Connect(function()
+    tweenTo(CFrame.new(-334, 132, -392))
+end)
+
 --==================  SCROLL FRAME CHO NÚT CRAFT ==================
 
 local scrollFrame = Instance.new("ScrollingFrame")
-scrollFrame.Size = UDim2.new(0, 250, 0, 260)
-scrollFrame.Position = UDim2.new(0, 25, 0, 250)
+scrollFrame.Size = UDim2.new(0, 250, 0, 200)
+scrollFrame.Position = UDim2.new(0, 25, 0, 390)
 scrollFrame.BackgroundColor3 = Color3.fromRGB(40,40,40)
 scrollFrame.BorderSizePixel = 0
 scrollFrame.ScrollBarThickness = 10
@@ -140,19 +213,16 @@ uiLayout.Padding = UDim.new(0,5)
 uiLayout.SortOrder = Enum.SortOrder.LayoutOrder
 uiLayout.Parent = scrollFrame
 
---==================  CRAFT BUTTONS  ==================
-
 local craftItems = {
-    "BlueExtract","RedExtract","Oil","Enzymes","Glue",
-    "Glitter","PurplePotion","SuperSmoothie","TropicalDrink",
-    "StarJelly","Gumdrops"
+    "BlueExtract","RedExtract","Oil","Enzymes","Gumdrops","Glue",
+    "Glitter","StarJelly","TropicalDrink","PurplePotion","SuperSmoothie"
 }
 
-local Event = game:GetService("ReplicatedStorage").Events.BlenderCommand
+local Event = ReplicatedStorage.Events.BlenderCommand
 
-for i, recipeName in ipairs(craftItems) do
+for _, recipeName in ipairs(craftItems) do
     local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(1, 0, 0, 35) -- full width ScrollFrame
+    btn.Size = UDim2.new(1, 0, 0, 35)
     btn.BackgroundColor3 = Color3.fromRGB(60,60,60)
     btn.TextColor3 = Color3.new(1,1,1)
     btn.Text = "Craft "..recipeName
@@ -162,24 +232,13 @@ for i, recipeName in ipairs(craftItems) do
 
     btn.MouseButton1Click:Connect(function()
         local count = tonumber(countBox.Text) or 1
-        local args1 = "PlaceOrder"
-        local args2 = {["Recipe"]=recipeName, ["Count"]=count}
-        Event:InvokeServer(args1,args2)
+        Event:InvokeServer("PlaceOrder", {Recipe = recipeName, Count = count})
     end)
 end
 
--- Auto update CanvasSize
-local function updateCanvasSize()
-    local layout = scrollFrame:FindFirstChildOfClass("UIListLayout")
-    if layout then
-        scrollFrame.CanvasSize = UDim2.new(0,0,0,layout.AbsoluteContentSize.Y)
-    end
-end
+scrollFrame.CanvasSize = UDim2.new(0,0,0,uiLayout.AbsoluteContentSize.Y)
 
-updateCanvasSize()
-scrollFrame:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateCanvasSize)
-
---==================  OPEN/CLOSE TOGGLE ==================
+--==================  OPEN/CLOSE ==================
 
 toggle.MouseButton1Click:Connect(function()
     mainFrame.Visible = not mainFrame.Visible
@@ -190,8 +249,7 @@ end)
 
 task.spawn(function()
     while true do
-        local fps = math.floor(1 / game:GetService("RunService").RenderStepped:Wait())
-        fpsLabel.Text = "FPS: "..fps
+        fpsLabel.Text = "FPS: "..math.floor(1 / RunService.RenderStepped:Wait())
         task.wait(1)
     end
 end)
