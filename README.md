@@ -11,4 +11,5 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/siousriaz/BeeSwamSimu
 To use SimpleSpy, just run the following code (or copy the code from SimpleSpy.lua) in a supported executor.
 
 ```lua
-https://raw.githubusercontent.com/exxtremestuffs/SimpleSpySource/master/SimpleSpy.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/exxtremestuffs/SimpleSpySource/master/SimpleSpy.lua "))()
+```
