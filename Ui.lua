@@ -608,19 +608,62 @@ for _,recipe in ipairs(craftItems) do
 end
 
 scrollFrame.CanvasSize = UDim2.new(0,0,0,uiLayout.AbsoluteContentSize.Y)
+--================= FLOAT PAD (AUTO DURING TWEEN) =================--
+
+local float = false
+
+local floatpad = Instance.new("Part")
+floatpad.Name = "FloatPad"
+floatpad.Size = Vector3.new(6, 1, 6)
+floatpad.Anchored = true
+floatpad.CanCollide = false
+floatpad.Transparency = 1
+floatpad.Parent = workspace
+
+RunService.Heartbeat:Connect(function()
+	if not float then
+		floatpad.CanCollide = false
+		return
+	end
+
+	local char = player.Character
+	if char and char:FindFirstChild("HumanoidRootPart") then
+		local hrp = char.HumanoidRootPart
+		floatpad.CanCollide = true
+		floatpad.CFrame = hrp.CFrame * CFrame.new(0, -3.75, 0)
+	end
+end)
 
 --================= TWEEN LOGIC =================--
 
 local function tweenTo(cf)
 	local char = player.Character or player.CharacterAdded:Wait()
 	local hrp = char:WaitForChild("HumanoidRootPart")
-	local time = (hrp.Position - cf.Position).Magnitude / 100
+
+	local distance = (hrp.Position - cf.Position).Magnitude
+	local time = distance / 100
+
+	-- bật float
+	float = true
+	floatpad.CanCollide = true
+
 	hrp.Anchored = true
-	local tw = TweenService:Create(hrp,TweenInfo.new(time),{CFrame = cf})
+
+	local tw = TweenService:Create(
+		hrp,
+		TweenInfo.new(time, Enum.EasingStyle.Linear),
+		{CFrame = cf}
+	)
+
 	tw:Play()
 	tw.Completed:Wait()
+
+	-- tắt float
 	hrp.Anchored = false
+	float = false
+	floatpad.CanCollide = false
 end
+
 
 tweenBtn("Blender",Color3.fromRGB(70,130,180),function()
 	tweenTo(CFrame.new(-424,69,37))
