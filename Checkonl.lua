@@ -1,23 +1,46 @@
 settings().Rendering.QualityLevel = "Level01"
 UserSettings().GameSettings.MasterVolume = 0
+
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local PlayerGui = player:WaitForChild("PlayerGui")
 
--- Tạo label hiển thị fileIndex (Online: X)
+--================= FONT (GIỐNG UI TRÊN) =================--
+
+local BUNGEE_FONT = Font.new(
+	"rbxassetid://12187365364",
+	Enum.FontWeight.Bold,
+	Enum.FontStyle.Normal
+)
+
+--================= GUI =================--
+
 local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "OnlineIndexUI"
+screenGui.ResetOnSpawn = false
 screenGui.Parent = PlayerGui
 
+--================= LABEL FRAME (STYLE FPS) =================--
+
+local labelFrame = Instance.new("Frame")
+labelFrame.Size = UDim2.new(0,200,0,26)
+labelFrame.Position = UDim2.new(1,-210,0,85) -- dưới FPS
+labelFrame.BackgroundColor3 = Color3.fromRGB(20,20,20)
+labelFrame.BorderSizePixel = 0
+labelFrame.Parent = screenGui
+Instance.new("UICorner", labelFrame)
+
+--================= LABEL =================--
+
 local label = Instance.new("TextLabel")
-label.Size = UDim2.new(0, 120, 0, 30)
-label.Position = UDim2.new(1, -210, 0, 85) -- nằm dưới FPS (55 + 30)
-label.BackgroundTransparency = 0.5
-label.BackgroundColor3 = Color3.fromRGB(0,0,0)
-label.TextColor3 = Color3.fromRGB(0,255,0)
-label.TextScaled = true
-label.Font = Enum.Font.SourceSansBold
+label.Size = UDim2.new(1,0,1,0)
+label.BackgroundTransparency = 1
+label.TextColor3 = Color3.fromRGB(0,255,120)
+label.FontFace = BUNGEE_FONT
+label.TextSize = 16
+label.TextScaled = false
 label.Text = "Online: 0"
-label.Parent = screenGui
+label.Parent = labelFrame
 
 -- Đường dẫn file usernames.txt
 local filePath = "usernames.txt" -- hoặc Delta/workspace/usernames.txt
