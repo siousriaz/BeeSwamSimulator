@@ -656,12 +656,17 @@ local function tweenTo(cf)
 	)
 
 	tw:Play()
+
+	-- ⏱️ TẮT FLOAT PAD TRƯỚC KHI TWEEN KẾT THÚC
+	task.delay(math.max(time - 0.05, 0), function()
+		float = false
+		floatpad.CanCollide = false
+	end)
+
 	tw.Completed:Wait()
 
-	-- tắt float
+	-- unanchor sau khi float đã tắt
 	hrp.Anchored = false
-	float = false
-	floatpad.CanCollide = false
 end
 
 
