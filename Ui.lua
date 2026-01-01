@@ -10,41 +10,32 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
+local feeding = false
+
+--================= GUI =================--
+
 local gui = Instance.new("ScreenGui")
 gui.Name = "CraftUI"
 gui.Parent = playerGui
 gui.ResetOnSpawn = false
 
---=================  TOGGLE ===================--
+--================= TOGGLE =================--
 
 local toggle = Instance.new("TextButton")
 toggle.Size = UDim2.new(0,200,0,40)
 toggle.Position = UDim2.new(1,-210,0,10)
-toggle.BackgroundColor3 = Color3.fromRGB(40,40,40)
-toggle.TextColor3 = Color3.new(1,1,1)
+toggle.Text = "Open"
 toggle.Font = Enum.Font.SourceSansBold
 toggle.TextSize = 22
-toggle.Text = "Open"
+toggle.TextColor3 = Color3.new(1,1,1)
+toggle.BackgroundColor3 = Color3.fromRGB(40,40,40)
 toggle.Parent = gui
 
---=================  FPS ===================--
-
-local fpsLabel = Instance.new("TextLabel")
-fpsLabel.Size = UDim2.new(0,200,0,25)
-fpsLabel.Position = UDim2.new(1,-210,0,55)
-fpsLabel.BackgroundTransparency = 0.5
-fpsLabel.BackgroundColor3 = Color3.fromRGB(0,0,0)
-fpsLabel.TextColor3 = Color3.fromRGB(0,255,0)
-fpsLabel.Font = Enum.Font.SourceSansBold
-fpsLabel.TextScaled = true
-fpsLabel.Text = "FPS: ..."
-fpsLabel.Parent = gui
-
---=================  MAIN FRAME ===================--
+--================= MAIN FRAME =================--
 
 local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0,650,0,450)
-mainFrame.Position = UDim2.new(1,-660,0,90)
+mainFrame.Size = UDim2.new(0,800,0,460)
+mainFrame.Position = UDim2.new(1,-820,0,80)
 mainFrame.BackgroundColor3 = Color3.fromRGB(30,30,30)
 mainFrame.Visible = false
 mainFrame.Active = true
@@ -52,206 +43,178 @@ mainFrame.Draggable = true
 mainFrame.Parent = gui
 Instance.new("UICorner", mainFrame)
 
---=================  LEFT PANEL ===================--
+--================= 🔥 UI SCALE (2/3 + AUTO) =================--
 
-local leftPanel = Instance.new("Frame")
-leftPanel.Size = UDim2.new(0,300,1,0)
-leftPanel.BackgroundTransparency = 1
-leftPanel.Parent = mainFrame
+local uiScale = Instance.new("UIScale")
+uiScale.Scale = 0.66
+uiScale.Parent = mainFrame
 
---=================  TITLE ===================--
+local camera = workspace.CurrentCamera
+local function updateScale()
+	local w = camera.ViewportSize.X
+	if w < 1000 then
+		uiScale.Scale = 0.6
+	elseif w < 1400 then
+		uiScale.Scale = 0.66
+	else
+		uiScale.Scale = 0.75
+	end
+end
+
+updateScale()
+camera:GetPropertyChangedSignal("ViewportSize"):Connect(updateScale)
+
+--================= TWEEN COLUMN =================--
+
+local tweenFrame = Instance.new("Frame")
+tweenFrame.Size = UDim2.new(0,170,1,-20)
+tweenFrame.Position = UDim2.new(0,10,0,10)
+tweenFrame.BackgroundColor3 = Color3.fromRGB(22,22,22)
+tweenFrame.Parent = mainFrame
+Instance.new("UICorner", tweenFrame)
+
+local tweenLayout = Instance.new("UIListLayout", tweenFrame)
+tweenLayout.Padding = UDim.new(0,6)
+
+local function tweenBtn(text,color,func)
+	local b = Instance.new("TextButton")
+	b.Size = UDim2.new(1,-10,0,34)
+	b.BackgroundColor3 = color
+	b.TextColor3 = Color3.new(1,1,1)
+	b.Text = text
+	b.Font = Enum.Font.SourceSansBold
+	b.TextSize = 15
+	b.Parent = tweenFrame
+	b.MouseButton1Click:Connect(func)
+end
+
+--================= CENTER PANEL =================--
+
+local centerPanel = Instance.new("Frame")
+centerPanel.Size = UDim2.new(0,300,1,-20)
+centerPanel.Position = UDim2.new(0,190,0,10)
+centerPanel.BackgroundTransparency = 1
+centerPanel.Parent = mainFrame
+
+--================= TITLE =================--
 
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1,0,0,40)
-title.BackgroundTransparency = 1
 title.Text = "Craft Panel"
 title.TextColor3 = Color3.new(1,1,1)
 title.Font = Enum.Font.SourceSansBold
 title.TextSize = 26
-title.TextXAlignment = Enum.TextXAlignment.Center
-title.Parent = leftPanel
+title.BackgroundTransparency = 1
+title.Parent = centerPanel
 
---=================  COUNT ===================--
+--================= COUNT UI =================--
 
 local countBox = Instance.new("TextBox")
-countBox.Size = UDim2.new(0,250,0,40)
-countBox.Position = UDim2.new(0,25,0,50)
-countBox.BackgroundColor3 = Color3.fromRGB(50,50,50)
-countBox.TextColor3 = Color3.new(1,1,1)
+countBox.Size = UDim2.new(0,260,0,38)
+countBox.Position = UDim2.new(0,20,0,50)
 countBox.PlaceholderText = "Count"
-countBox.Font = Enum.Font.SourceSans
-countBox.TextSize = 20
-countBox.Parent = leftPanel
+countBox.TextColor3 = Color3.new(1,1,1)
+countBox.BackgroundColor3 = Color3.fromRGB(50,50,50)
+countBox.Parent = centerPanel
 
 local countItemLabel = Instance.new("TextLabel")
 countItemLabel.Size = UDim2.new(0,100,0,30)
-countItemLabel.Position = UDim2.new(0,25,0,100)
-countItemLabel.BackgroundTransparency = 1
+countItemLabel.Position = UDim2.new(0,20,0,95)
 countItemLabel.Text = "Count item:"
 countItemLabel.TextColor3 = Color3.new(1,1,1)
-countItemLabel.Font = Enum.Font.SourceSans
-countItemLabel.TextSize = 18
-countItemLabel.Parent = leftPanel
+countItemLabel.BackgroundTransparency = 1
+countItemLabel.Parent = centerPanel
 
 local countItemBox = Instance.new("TextBox")
 countItemBox.Size = UDim2.new(0,150,0,30)
-countItemBox.Position = UDim2.new(0,130,0,100)
+countItemBox.Position = UDim2.new(0,130,0,95)
 countItemBox.BackgroundColor3 = Color3.fromRGB(50,50,50)
 countItemBox.TextColor3 = Color3.new(1,1,1)
-countItemBox.PlaceholderText = "Nhập số..."
-countItemBox.Font = Enum.Font.SourceSans
-countItemBox.TextSize = 18
-countItemBox.Parent = leftPanel
+countItemBox.Parent = centerPanel
 
 local resultLabel = Instance.new("TextLabel")
-resultLabel.Size = UDim2.new(0,250,0,30)
-resultLabel.Position = UDim2.new(0,25,0,135)
-resultLabel.BackgroundTransparency = 1
+resultLabel.Size = UDim2.new(0,260,0,28)
+resultLabel.Position = UDim2.new(0,20,0,130)
 resultLabel.Text = "Kết quả: 0"
 resultLabel.TextColor3 = Color3.new(1,1,1)
-resultLabel.Font = Enum.Font.SourceSansBold
-resultLabel.TextSize = 18
-resultLabel.Parent = leftPanel
+resultLabel.BackgroundTransparency = 1
+resultLabel.Parent = centerPanel
 
 countItemBox:GetPropertyChangedSignal("Text"):Connect(function()
-	local num = tonumber(countItemBox.Text)
-	if num then
-		resultLabel.Text = "Kết quả: "..(num/50).." or "..(num/25).." Mooncharm"
+	local n = tonumber(countItemBox.Text)
+	if n then
+		resultLabel.Text = "Kết quả: "..(n/50).." or "..(n/25).." Mooncharm"
 	end
 end)
 
---=================  END BUTTONS ===================--
+--================= FEED AMOUNT =================--
+
+local feedAmountBox = Instance.new("TextBox")
+feedAmountBox.Size = UDim2.new(0,260,0,38)
+feedAmountBox.Position = UDim2.new(0,20,0,165)
+feedAmountBox.Text = "500"
+feedAmountBox.TextColor3 = Color3.new(1,1,1)
+feedAmountBox.BackgroundColor3 = Color3.fromRGB(50,50,50)
+feedAmountBox.Parent = centerPanel
+
+--================= BUTTONS =================--
 
 local function fixedBtn(text,y,color,func)
 	local b = Instance.new("TextButton")
-	b.Size = UDim2.new(0,250,0,36)
-	b.Position = UDim2.new(0,25,0,y)
-	b.BackgroundColor3 = color
-	b.TextColor3 = Color3.new(1,1,1)
-	b.Text = text
-	b.Font = Enum.Font.SourceSansBold
-	b.TextSize = 20
-	b.Parent = leftPanel
-	b.MouseButton1Click:Connect(func)
-end
-
-fixedBtn("End Craft",175,Color3.fromRGB(120,0,0),function()
-	ReplicatedStorage.Events.BlenderCommand:InvokeServer("StopOrder")
-end)
-
-fixedBtn("End by Tickets",215,Color3.fromRGB(0,150,0),function()
-	ReplicatedStorage.Events.BlenderCommand:InvokeServer("SpeedUpOrder")
-end)
-
---=================  TWEEN ===================--
-
-local function tweenTo(cf)
-	local char = player.Character or player.CharacterAdded:Wait()
-	local hrp = char:WaitForChild("HumanoidRootPart")
-	local time = (hrp.Position - cf.Position).Magnitude / 100
-	hrp.Anchored = true
-	local tw = TweenService:Create(hrp,TweenInfo.new(time,Enum.EasingStyle.Linear),{CFrame = cf})
-	tw:Play()
-	tw.Completed:Wait()
-	hrp.Anchored = false
-end
-
---=================  ACTION SCROLL ===================--
-
-local actionScroll = Instance.new("ScrollingFrame")
-actionScroll.Size = UDim2.new(0,250,1,-265)
-actionScroll.Position = UDim2.new(0,25,0,255)
-actionScroll.BackgroundColor3 = Color3.fromRGB(32,32,32)
-actionScroll.ScrollBarThickness = 6
-actionScroll.BorderSizePixel = 0
-actionScroll.Parent = leftPanel
-Instance.new("UICorner", actionScroll)
-local function resetCharacter()
-	local char = player.Character
-	if char and char:FindFirstChild("Humanoid") then
-		char.Humanoid.Health = 0
-	end
-end
-
-local layout = Instance.new("UIListLayout", actionScroll)
-layout.Padding = UDim.new(0,6)
-
-local function starJellyTween()
-	local positions = {
-		CFrame.new(-412.1661071777344, 17.16798210144043, 466.94390869140625),
-		CFrame.new(-436.7828369140625, 93.25753784179688, 49.242652893066406),
-		CFrame.new(-482.6617126464844, 69.3868179321289, -0.30026334524154663),
-		CFrame.new(16.145164489746094, 92.19210052490234, 490)
-	}
-
-	for _, cf in ipairs(positions) do
-		tweenTo(cf)
-		wait(1)
-	end
-
-	ReplicatedStorage.Events.PlayerActivesCommand:FireServer({
-		Name = "Gumdrops"
-	})
-wait(1.5)
-	tweenTo(CFrame.new(271.8910217285156, 25292.791015625, -873.340576171875))
-	wait(0.5)
-	resetCharacter()
-end
-
-local function actionBtn(text,color,func)
-	local b = Instance.new("TextButton")
-	b.Size = UDim2.new(1,-10,0,36)
-	b.BackgroundColor3 = color
-	b.TextColor3 = Color3.new(1,1,1)
+	b.Size = UDim2.new(0,260,0,36)
+	b.Position = UDim2.new(0,20,0,y)
 	b.Text = text
 	b.Font = Enum.Font.SourceSansBold
 	b.TextSize = 18
-	b.Parent = actionScroll
+	b.TextColor3 = Color3.new(1,1,1)
+	b.BackgroundColor3 = color
+	b.Parent = centerPanel
 	b.MouseButton1Click:Connect(func)
 end
 
-actionBtn("Blender",Color3.fromRGB(70,130,180),function()
-	tweenTo(CFrame.new(-424,69,37))
+fixedBtn("End Craft",210,Color3.fromRGB(120,0,0),function()
+	ReplicatedStorage.Events.BlenderCommand:InvokeServer("StopOrder")
 end)
 
-actionBtn("Diamond Mask",Color3.fromRGB(0,180,180),function()
-	tweenTo(CFrame.new(-334,132,-392))
+fixedBtn("End by Tickets",250,Color3.fromRGB(0,150,0),function()
+	ReplicatedStorage.Events.BlenderCommand:InvokeServer("SpeedUpOrder")
 end)
 
-actionBtn("Royal Jelly Shop",Color3.fromRGB(180,120,0),function()
-	tweenTo(CFrame.new(-293.1046,52.2116,68.242))
+--================= FEED LOGIC =================--
+
+local function feedAllBees(amount)
+	if feeding then return end
+	feeding = true
+	task.spawn(function()
+		local r,t = 1,1
+		while feeding do
+			ReplicatedStorage.Events.ConstructHiveCellFromEgg
+				:InvokeServer(r,t,"Treat",amount,false)
+			if r == 5 and t == 10 then break end
+			r += 1
+			if r > 5 then r = 1 t += 1 end
+			task.wait(0.1)
+		end
+		feeding = false
+	end)
+end
+
+fixedBtn("Feed All Bees",290,Color3.fromRGB(255,170,0),function()
+	local a = tonumber(feedAmountBox.Text)
+	if a and a > 0 then feedAllBees(a) end
 end)
 
-actionBtn("Petal Shop",Color3.fromRGB(255,120,200),function()
-	tweenTo(CFrame.new(-500.5889,51.5681,466.1004))
+fixedBtn("Stop Feed",330,Color3.fromRGB(150,60,60),function()
+	feeding = false
 end)
 
-actionBtn("Nectar Conserver",Color3.fromRGB(120,255,120),function()
-	tweenTo(CFrame.new(-415.5715,101.0204,343.2695))
-end)
-
-actionBtn("Star Jelly", Color3.fromRGB(255,215,0), starJellyTween)
-
-actionBtn("Diamond Egg", Color3.fromRGB(0,200,255), function()
-	tweenTo(CFrame.new(41.6182,150.6023,-528))
-end)
-
-actionBtn("Wind Shrine",Color3.fromRGB(150,150,255),function()
-	tweenTo(CFrame.new(-478.0487,141.5075,411.1997))
-end)
-
-layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-	actionScroll.CanvasSize = UDim2.new(0,0,0,layout.AbsoluteContentSize.Y+6)
-end)
-
---=================  RIGHT PANEL (CRAFT) ===================--
+--================= RIGHT PANEL =================--
 
 local scrollFrame = Instance.new("ScrollingFrame")
-scrollFrame.Size = UDim2.new(0,320,0,390)
-scrollFrame.Position = UDim2.new(0,315,0,40)
+scrollFrame.Size = UDim2.new(0,280,1,-20)
+scrollFrame.Position = UDim2.new(1,-290,0,10)
+scrollFrame.ScrollBarThickness = 8
 scrollFrame.BackgroundColor3 = Color3.fromRGB(40,40,40)
-scrollFrame.BorderSizePixel = 0
-scrollFrame.ScrollBarThickness = 10
 scrollFrame.Parent = mainFrame
 
 local uiLayout = Instance.new("UIListLayout", scrollFrame)
@@ -264,12 +227,12 @@ local craftItems = {
 
 for _,recipe in ipairs(craftItems) do
 	local b = Instance.new("TextButton")
-	b.Size = UDim2.new(1,-10,0,35)
-	b.BackgroundColor3 = Color3.fromRGB(60,60,60)
-	b.TextColor3 = Color3.new(1,1,1)
+	b.Size = UDim2.new(1,-10,0,34)
 	b.Text = "Craft "..recipe
+	b.TextColor3 = Color3.new(1,1,1)
 	b.Font = Enum.Font.SourceSansBold
-	b.TextSize = 20
+	b.TextSize = 18
+	b.BackgroundColor3 = Color3.fromRGB(60,60,60)
 	b.Parent = scrollFrame
 	b.MouseButton1Click:Connect(function()
 		ReplicatedStorage.Events.BlenderCommand:InvokeServer("PlaceOrder",{
@@ -281,16 +244,54 @@ end
 
 scrollFrame.CanvasSize = UDim2.new(0,0,0,uiLayout.AbsoluteContentSize.Y)
 
---=================  TOGGLE ===================--
+--================= TWEEN LOGIC =================--
+
+local function tweenTo(cf)
+	local char = player.Character or player.CharacterAdded:Wait()
+	local hrp = char:WaitForChild("HumanoidRootPart")
+	local time = (hrp.Position - cf.Position).Magnitude / 100
+	hrp.Anchored = true
+	local tw = TweenService:Create(hrp,TweenInfo.new(time),{CFrame = cf})
+	tw:Play()
+	tw.Completed:Wait()
+	hrp.Anchored = false
+end
+
+tweenBtn("Blender",Color3.fromRGB(70,130,180),function()
+	tweenTo(CFrame.new(-424,69,37))
+end)
+
+tweenBtn("Diamond Mask",Color3.fromRGB(0,180,180),function()
+	tweenTo(CFrame.new(-334,132,-392))
+end)
+
+tweenBtn("Royal Jelly Shop",Color3.fromRGB(180,120,0),function()
+	tweenTo(CFrame.new(-293.1046,52.2116,68.242))
+end)
+
+tweenBtn("Petal Shop",Color3.fromRGB(255,120,200),function()
+	tweenTo(CFrame.new(-500.5889,51.5681,466.1004))
+end)
+
+tweenBtn("Nectar Conserver",Color3.fromRGB(120,255,120),function()
+	tweenTo(CFrame.new(-415.5715,101.0204,343.2695))
+end)
+tweenBtn("Dapper Shop",Color3.fromRGB(15, 97, 0),function()
+	tweenTo(CFrame.new(535.4567260742188, 137.8612823486328, -319.6371765136719))
+end)
+tweenBtn("Star Amulet",Color3.fromRGB(0, 245, 16),function()
+	tweenTo(CFrame.new(169.3165283203125, 72.26011657714844, 358.0343933105469))
+end)
+tweenBtn("Sticker Printer",Color3.fromRGB(166, 0, 255),function()
+	tweenTo(CFrame.new(205.68353271484375, 161.73097229003906, -194.668212890625))
+end)
+tweenBtn("Gifted Bucko Bee",Color3.fromRGB(64, 0, 255),function()
+	tweenTo(CFrame.new(298.5751037597656, 61.452880859375, 107.14179229736328))
+end)
+
+--================= TOGGLE =================--
 
 toggle.MouseButton1Click:Connect(function()
 	mainFrame.Visible = not mainFrame.Visible
 	toggle.Text = mainFrame.Visible and "Close" or "Open"
-end)
-
-task.spawn(function()
-	while true do
-		fpsLabel.Text = "FPS: "..math.floor(1 / RunService.RenderStepped:Wait())
-		task.wait(1)
-	end
 end)
