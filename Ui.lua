@@ -49,9 +49,9 @@ local camera = workspace.CurrentCamera
 local function updateScale()
 	local w = camera.ViewportSize.X
 	if w < 1000 then
-		uiScale.Scale = 1
+		uiScale.Scale = 0.8
 	elseif w < 1400 then
-		uiScale.Scale = 1
+		uiScale.Scale = 0.8
 	else
 		uiScale.Scale = 1
 	end
