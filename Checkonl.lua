@@ -1,6 +1,13 @@
 settings().Rendering.QualityLevel = "Level01"
 UserSettings().GameSettings.MasterVolume = 0
 
+local s = UserSettings():GetService("UserGameSettings")
+pcall(function() s.ReducedMotion = true end)
+pcall(function() s.ReduceMotion = true end)
+pcall(function() s.CameraShakesEnabled = false end)
+pcall(function() s.UiAnimationSpeed = 0 end)
+
+
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local PlayerGui = player:WaitForChild("PlayerGui")
