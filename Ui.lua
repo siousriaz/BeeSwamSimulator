@@ -403,11 +403,11 @@ end)
 tweenBtn("Gifted Bucko Bee",Color3.fromRGB(64, 0, 255),function()
 	tweenTo(CFrame.new(298.5751037597656, 61.452880859375, 107.14179229736328))
 end)
-tweenBtn("▶ Start Rare Farm",Color3.fromRGB(64, 0, 100),function()
+tweenBtn("Start Rare Farm",Color3.fromRGB(64, 0, 100),function()
 farmrare = true
 	tweenRare()
 end)
-tweenBtn("▶ Start Rare Farm",Color3.fromRGB(164, 0, 100),function()
+tweenBtn("Stop Rare Farm",Color3.fromRGB(164, 0, 100),function()
 farmrare = false
 end)
 --================= TOGGLE =================--
