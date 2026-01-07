@@ -332,6 +332,39 @@ local function tweenTo(cf)
 	hrp.Anchored = false
 end
 
+local function tweenRare()
+{
+    Vector3.new(-54.35, 26.42, -62.28),
+    Vector3.new(-168.46, 40.84, 76.93),
+    Vector3.new(14.02, 11.59, 68.15),
+    Vector3.new(-436.27, 101.32, 49.61),
+    Vector3.new(131.65, 124.51, -63.04),
+    Vector3.new(369.31, 91.82, -237.08),
+    Vector3.new(3.36, 311.23, -266.30),
+    Vector3.new(524.51, 158.90, -411.88),
+    Vector3.new(-43.28, 201.36, -263.05),
+    Vector3.new(41.74, 158.06, -531.89),
+    Vector3.new(-412.99, 26.29, 467.02),
+    Vector3.new(98.66, 42.20, 355.49),
+    Vector3.new(87.33, 61.94, 396.05),
+    Vector3.new(-380.69, 61.68, 206.63),
+    Vector3.new(83.81, 76.48, -142.15),
+    Vector3.new(5.22, 181.66, -96.96),
+    Vector3.new(338.76, 137.92, -233.84),
+    Vector3.new(-336.53, 139.37, -384.93),
+    Vector3.new(-481.07, 78.71, -0.26),
+    Vector3.new(-232.85, 191.92, -249.96),
+    Vector3.new(-124.22, 78.75, 558.22),
+    Vector3.new(-105.19, 78.71, 557.97),
+    Vector3.new(-374.19, 26.29, 494.71),
+}
+
+for _, pos in ipairs(Positions) do
+    tweenTo(pos)
+    task.wait(1)
+end
+end
+
 
 tweenBtn("Blender",Color3.fromRGB(70,130,180),function()
 	tweenTo(CFrame.new(-424,69,37))
@@ -363,6 +396,9 @@ tweenBtn("Sticker Printer",Color3.fromRGB(166, 0, 255),function()
 end)
 tweenBtn("Gifted Bucko Bee",Color3.fromRGB(64, 0, 255),function()
 	tweenTo(CFrame.new(298.5751037597656, 61.452880859375, 107.14179229736328))
+end)
+tweenBtn("▶ Start Rare Farm",Color3.fromRGB(64, 0, 100),function()
+	tweenRare()
 end)
 
 --================= TOGGLE =================--
