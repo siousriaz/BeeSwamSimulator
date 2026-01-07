@@ -14,7 +14,9 @@ local gui = Instance.new("ScreenGui")
 gui.Name = "CraftUI"
 gui.Parent = playerGui
 gui.ResetOnSpawn = false
-
+-- ✅ TOPMOST FIX
+gui.DisplayOrder = 999999
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Global
 --================= TOGGLE =================--
 
 local toggle = Instance.new("TextButton")
@@ -333,6 +335,7 @@ local function tweenTo(cf)
 end
 
 local function tweenRare()
+local Positions =
 {
     Vector3.new(-54.35, 26.42, -62.28),
     Vector3.new(-168.46, 40.84, 76.93),
