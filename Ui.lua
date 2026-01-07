@@ -6,6 +6,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
+local farmrare = false
 local feeding = false
 
 --================= GUI =================--
@@ -363,9 +364,11 @@ local Positions =
 }
 
 for _, pos in ipairs(Positions) do
-    tweenTo(pos)
+if not farmrare then return end
+    tweenTo(CFrame.new(pos)) -- ✅ FIX
     task.wait(1)
 end
+
 end
 
 
@@ -401,9 +404,12 @@ tweenBtn("Gifted Bucko Bee",Color3.fromRGB(64, 0, 255),function()
 	tweenTo(CFrame.new(298.5751037597656, 61.452880859375, 107.14179229736328))
 end)
 tweenBtn("▶ Start Rare Farm",Color3.fromRGB(64, 0, 100),function()
+farmrare = true
 	tweenRare()
 end)
-
+tweenBtn("▶ Start Rare Farm",Color3.fromRGB(164, 0, 100),function()
+farmrare = false
+end)
 --================= TOGGLE =================--
 
 toggle.MouseButton1Click:Connect(function()
