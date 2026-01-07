@@ -26,7 +26,8 @@ local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "OnlineIndexUI"
 screenGui.ResetOnSpawn = false
 screenGui.Parent = PlayerGui
-
+screenGui.DisplayOrder = 999999
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
 --================= LABEL FRAME (STYLE FPS) =================--
 
 local labelFrame = Instance.new("Frame")
