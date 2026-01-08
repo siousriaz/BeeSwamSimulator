@@ -224,7 +224,7 @@ local function feedAllBees(amount)
 			if r == 5 and t == 10 then break end
 			r += 1
 			if r > 5 then r = 1 t += 1 end
-			task.wait(0.1)
+			task.wait(1)
 		end
 		feeding = false
 	end)
