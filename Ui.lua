@@ -442,3 +442,8 @@ gui.DescendantAdded:Connect(function(ui)
 	task.wait()
 	apply(ui)
 end)
+-- Set fps 
+task.spawn(function()
+    repeat task.wait() until setfpscap
+    setfpscap(15)
+end)
