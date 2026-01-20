@@ -175,13 +175,13 @@ local function buyTreat()
         and Services.Player:FindFirstChild("CoreStats")
         and Services.Player.CoreStats:FindFirstChild("Honey")
 
-    if not honeyVal or honeyVal.Value < 10000000 then return end
+    if not honeyVal or honeyVal.Value < 50000000 then return end
 
     local args = {
         [1] = "Purchase",
         [2] = {
             ["Type"] = "Treat",
-            ["Amount"] = 1000,
+            ["Amount"] = 500,
             ["Category"] = "Eggs"
         }
     }
