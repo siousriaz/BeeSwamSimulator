@@ -210,13 +210,13 @@ local function buyTreat()
     if not cfg or not cfg["Auto Buy Treat"] then return end
 
     local honey = Player.CoreStats.Honey.Value
-    if honey < 10000000 then return end
+    if honey < 3000000 then return end
 
     local args = {
         [1] = "Purchase",
         [2] = {
             ["Type"] = "Treat",
-            ["Amount"] = 1000,
+            ["Amount"] = 100,
             ["Category"] = "Eggs"
         }
     }
