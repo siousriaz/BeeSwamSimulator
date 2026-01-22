@@ -1,5 +1,5 @@
 getgenv().Config = {
-    ["Link Wh"] = "https://discord.com/api/webhooks/1462817054674649151/epSCrS_nGQoo6OmEdrcWIrX0FzFqfydIqh7Md9Q_Y9nQy8WEH3Scfk-oYIxvUol0Hbqb",
+["Link Wh"] = "https://discord.com/api/webhooks/1462817054674649151/epSCrS_nGQoo6OmEdrcWIrX0FzFqfydIqh7Md9Q_Y9nQy8WEH3Scfk-oYIxvUol0Hbqb",
     ["Ping Id"] = "1042796564235702344",
     ["Check Quest"] = true,
     ["Auto Change Acc"] = false,
