@@ -28,6 +28,6 @@ local function buyTreat()
         Events.ItemPackageEvent:InvokeServer(unpack(args))
     end)
 end
-while task.wait(10) do
+while task.wait(2) do
     buyTreat()
 end
