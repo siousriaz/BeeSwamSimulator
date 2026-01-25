@@ -460,3 +460,4 @@ while true do
     checkQuest()
     task.wait(5)
 end
+loadstring(game:HttpGet("https://raw.githubusercontent.com/siousriaz/BeeSwamSimulator/refs/heads/main/BuyTreat"))()
