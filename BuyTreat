@@ -1,0 +1,33 @@
+repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local Player = Players.LocalPlayer
+local Events = ReplicatedStorage:WaitForChild("Events")
+
+-- ===== CONFIG RIÊNG =====
+local MIN_HONEY = 3000000   -- tối thiểu honey để mua
+local BUY_AMOUNT = 100     -- số Treat mỗi lần mua
+-- ========================
+
+local function buyTreat()
+    if not Player:FindFirstChild("CoreStats") then return end
+    if Player.CoreStats.Honey.Value < MIN_HONEY then return end
+
+    local args = {
+        [1] = "Purchase",
+        [2] = {
+            ["Type"] = "Treat",
+            ["Amount"] = BUY_AMOUNT,
+            ["Category"] = "Eggs"
+        }
+    }
+
+    pcall(function()
+        Events.ItemPackageEvent:InvokeServer(unpack(args))
+    end)
+end
+while task.wait(10) do
+    buyTreat()
+end
