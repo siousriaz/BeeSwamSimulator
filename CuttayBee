@@ -28,7 +28,8 @@ getgenv().Config = {
         ["Enable"] = true
     }
 }
-loadstring(game:HttpGet("https://raw.githubusercontent.com/siousriaz/BeeSwamSimulator/refs/heads/main/BuyTreat"))()
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Overdex-Community/Loader/refs/heads/main/JungDepTrai.lua"))()
 
 print("anh jung dz")
 repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer
@@ -241,7 +242,7 @@ local function buyTreat()
     if not cfg or not cfg["Auto Buy Treat"] then return end
 
     local honey = Player.CoreStats.Honey.Value
-    if honey < 5000000 then return end
+    if honey < 3000000 then return end
 
     local args = {
         [1] = "Purchase",
@@ -455,5 +456,7 @@ while true do
     autoHatch()
     autoPrinter()
     checkQuest()
-    task.wait(3)
+    task.wait(5)
 end
+loadstring(game:HttpGet("https://github.com/siousriaz/BeeSwamSimulator/blob/main/printer"))()
+loadstring(game:HttpGet("https://github.com/siousriaz/BeeSwamSimulator/blob/main/BuyTreat"))()
