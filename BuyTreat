@@ -27,6 +27,9 @@ local function buyTreat()
     pcall(function()
         Events.ItemPackageEvent:InvokeServer(unpack(args))
     end)
+end
+while task.wait(2) do
+    buyTreat()
 local args = {
     [1] = "Purchase",
     [2] = {
@@ -38,7 +41,4 @@ local args = {
 pcall(function()
 Events.ItemPackageEvent:InvokeServer(unpack(args))
 end)
-end
-while task.wait(2) do
-    buyTreat()
 end
