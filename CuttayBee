@@ -27,7 +27,7 @@ getgenv().Config = {
     },
     ["Auto Hatch"] = {
         ["Enable"] = true,
-        ["Egg Hatch"] = { "Silver", "Gold", "Diamond", "Basic" }
+        ["Egg Hatch"] = { "Silver", "Gold", "Diamond" }
     },
     ["Auto Printer"] = {
         ["Enable"] = true
