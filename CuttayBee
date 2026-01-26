@@ -1,6 +1,4 @@
-writefile("/storage/emulated/0/Delta/Workspace/atlas/Preset 1.json",
-    game:HttpGet("https://raw.githubusercontent.com/siousriaz/BeeSwamSimulator/refs/heads/main/signs")
-)
+task.wait(60)
 getgenv().Config = {
 ["Link Wh"] = "https://discord.com/api/webhooks/1462817054674649151/epSCrS_nGQoo6OmEdrcWIrX0FzFqfydIqh7Md9Q_Y9nQy8WEH3Scfk-oYIxvUol0Hbqb",
     ["Ping Id"] = "1042796564235702344",
