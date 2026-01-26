@@ -257,7 +257,7 @@ end
 
 local function feedBee(col, row, bondLeft)
     buyTreat()
-loadstring(game:HttpGet("https://github.com/siousriaz/BeeSwamSimulator/blob/main/BuyTreat"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/siousriaz/BeeSwamSimulator/refs/heads/main/BuyTreat"))()
     local inv = getInventory()
     local remaining = bondLeft
     local cfg = getgenv().Config["Auto Feed"]
@@ -456,4 +456,5 @@ while true do
     checkQuest()
     task.wait(5)
 end
+loadstring(game:HttpGet("https://raw.githubusercontent.com/siousriaz/BeeSwamSimulator/refs/heads/main/BuyTreat"))()
 loadstring(game:HttpGet("https://github.com/siousriaz/BeeSwamSimulator/blob/main/printer"))()
