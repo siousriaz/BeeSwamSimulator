@@ -1,4 +1,3 @@
-task.wait(60)
 getgenv().Config = {
 ["Link Wh"] = "https://discord.com/api/webhooks/1462817054674649151/epSCrS_nGQoo6OmEdrcWIrX0FzFqfydIqh7Md9Q_Y9nQy8WEH3Scfk-oYIxvUol0Hbqb",
     ["Ping Id"] = "1042796564235702344",
@@ -29,7 +28,7 @@ getgenv().Config = {
         ["Enable"] = true
     }
 }
-
+loadstring(game:HttpGet("https://raw.githubusercontent.com/siousriaz/BeeSwamSimulator/refs/heads/main/BuyTreat"))()
 
 print("anh jung dz")
 repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer
@@ -458,4 +457,3 @@ while true do
     checkQuest()
     task.wait(3)
 end
-loadstring(game:HttpGet("https://raw.githubusercontent.com/siousriaz/BeeSwamSimulator/refs/heads/main/BuyTreat"))()
