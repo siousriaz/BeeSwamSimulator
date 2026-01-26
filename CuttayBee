@@ -28,9 +28,6 @@ getgenv().Config = {
         ["Enable"] = true
     }
 }
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Overdex-Community/Loader/refs/heads/main/JungDepTrai.lua"))()
-
 print("anh jung dz")
 repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer
 
