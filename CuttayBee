@@ -1,4 +1,3 @@
-_G.Config={UserID="a504b88a-f935-45ac-96bd-fb7881357a58",discord_id="1042796564235702344",Note="Pc"}local s;for i=1,5 do s=pcall(function()loadstring(game:HttpGet("https://cdn.yummydata.click/scripts/bss"))()end)if s then break end wait(5)end
 getgenv().Config = {
 ["Link Wh"] = "https://discord.com/api/webhooks/1462817054674649151/epSCrS_nGQoo6OmEdrcWIrX0FzFqfydIqh7Md9Q_Y9nQy8WEH3Scfk-oYIxvUol0Hbqb",
     ["Ping Id"] = "1042796564235702344",
