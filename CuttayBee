@@ -1,8 +1,3 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/siousriaz/BeeSwamSimulator/refs/heads/main/BuyTreat"))()
-loadstring(game:HttpGet("https://github.com/siousriaz/BeeSwamSimulator/blob/main/printer"))()
-writefile("/storage/emulated/0/Delta/Workspace/atlas/Preset 1.json",
-    game:HttpGet("https://raw.githubusercontent.com/siousriaz/BeeSwamSimulator/refs/heads/main/signs")
-)
 getgenv().Config = {
 ["Link Wh"] = "https://discord.com/api/webhooks/1462817054674649151/epSCrS_nGQoo6OmEdrcWIrX0FzFqfydIqh7Md9Q_Y9nQy8WEH3Scfk-oYIxvUol0Hbqb",
     ["Ping Id"] = "1042796564235702344",
@@ -47,7 +42,10 @@ local Events = RS:WaitForChild("Events")
 local Cache = { data = nil, last = 0 }
 
 local ITEM_KEYS = {
-    ["Moon Charm"] = "MoonCharm",
+    ["MoonCharm"] = "MoonCharm",
+ 	["Bitterberry"] = "Bitterberry",
+	["Neonberry"] = "Neonberry",
+  	["GingerbreadBear"] = "GingerbreadBear",
     ["Pineapple"] = "Pineapple",
     ["Strawberry"] = "Strawberry",
     ["Blueberry"] = "Blueberry",
@@ -61,7 +59,10 @@ local ITEM_KEYS = {
 }
 
 local BOND_ITEMS = {
-    { Name = "Moon Charm", Value = 250 },
+    { Name = "MoonCharm", Value = 250 },
+  { Name = "Bitterberry", Value = 100 },
+   { Name = "Neonberry", Value = 500 },
+   { Name = "GingerbreadBear", Value = 250 },
     { Name = "Pineapple", Value = 50 },
     { Name = "Strawberry", Value = 50 },
     { Name = "Blueberry", Value = 50 },
@@ -175,6 +176,54 @@ local function getTopBees(bees, amount)
     end
     return #out == amount and out or nil
 end
+local function feedMoonCharmByRule()
+    if MOON_FEED_DONE then return end
+
+    local cfg = getgenv().Config["Auto Feed"]
+    if not cfg or not cfg.Enable then return end
+    if not cfg["Bee Food"] or not cfg["Bee Food"]["MoonCharm"] then return end
+
+    local cache = getCache()
+    if not cache or not cache.Eggs then return end
+
+    local moon = tonumber(cache.Eggs.MoonCharm) or 0
+    if moon <= 0 then
+        MOON_FEED_DONE = true
+        return
+    end
+
+    local bees = getBees()
+    local group = getTopBees(bees, cfg["Bee Amount"])
+    if not group then return end
+
+    -- feed ong level thấp trước (đúng autoFeed)
+    table.sort(group, function(a,b) return a.level < b.level end)
+
+    local perBee = math.floor(moon / #group)
+    if perBee <= 0 then
+        MOON_FEED_DONE = true
+        return
+    end
+
+    for _, b in ipairs(group) do
+        if b.level < cfg["Bee Level"] then
+            print("[MOON FEED] Bee ("..b.col..","..b.row..") | MoonCharm x"..perBee)
+            pcall(function()
+                Events.ConstructHiveCellFromEgg:InvokeServer(
+                    b.col,
+                    b.row,
+                    "MoonCharm",
+                    perBee,
+                    false
+                )
+            end)
+            task.wait(0.5)
+        end
+    end
+
+    MOON_FEED_DONE = true
+    print("[MOON FEED] DONE (rule-based)")
+end
 
 local function findEmptySlot()
     local hives = Workspace:WaitForChild("Honeycombs")
@@ -284,6 +333,7 @@ local function feedBee(col, row, bondLeft)
 
                 pcall(function()
                     Events.ConstructHiveCellFromEgg:InvokeServer(unpack(args))
+					print("đã feed " .. ITEM_KEYS[item.Name])
                 end)
 
                 remaining -= (use * item.Value)
