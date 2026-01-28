@@ -7,7 +7,7 @@ local Player = Players.LocalPlayer
 local Events = ReplicatedStorage:WaitForChild("Events")
 
 -- ===== CONFIG RIÊNG =====
-local MIN_HONEY = 3000000   -- tối thiểu honey để mua
+local MIN_HONEY = 3500000   -- tối thiểu honey để mua
 local BUY_AMOUNT = 100     -- số Treat mỗi lần mua
 -- ========================
 
