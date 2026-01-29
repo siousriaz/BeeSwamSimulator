@@ -442,9 +442,28 @@ gui.DescendantAdded:Connect(function(ui)
 	task.wait()
 	apply(ui)
 end)
+getgenv().Settings = {
+    HideGlitchFX = true,
+    HideOtherBees = true,
+    TRequests = true,
+    PollenTextLarge = true,
+    PollenPopUps = false,
+    MusicMuted = false
+}
+
+repeat task.wait() until game:IsLoaded()
+
+for k, v in pairs(getgenv().Settings) do
+    game:GetService("ReplicatedStorage")
+        :WaitForChild("Events")
+        :WaitForChild("PlayerSettingsEvent")
+        :FireServer(k, v)
+end
 -- Set fps 
 task.spawn(function()
     repeat task.wait() until setfpscap
     setfpscap(15)
 end)
+
+
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1toop/bss/refs/heads/main/pot.lua"))()
