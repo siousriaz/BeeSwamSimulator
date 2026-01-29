@@ -446,9 +446,9 @@ getgenv().Settings = {
     HideGlitchFX = true,
     HideOtherBees = true,
     TRequests = true,
-    PollenTextLarge = true,
+    PollenTextLarge = false,
     PollenPopUps = false,
-    MusicMuted = false
+    MusicMuted = true
 }
 
 repeat task.wait() until game:IsLoaded()
