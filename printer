@@ -87,5 +87,5 @@ end
 -- ===== LOOP =====
 while true do
     autoPrinter()
-    task.wait(2)
+    task.wait(1)
 end
