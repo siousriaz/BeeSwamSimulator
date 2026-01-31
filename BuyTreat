@@ -10,3 +10,42 @@ if not isfolder(folder) then
 end
 writefile(path, json)
 
+
+local Events = ReplicatedStorage:WaitForChild("Events")
+
+-- ===== CONFIG RIÊNG =====
+local MIN_HONEY = 30000000   -- tối thiểu honey để mua
+local BUY_AMOUNT = 1000     -- số Treat mỗi lần mua
+-- ========================
+
+local function buyTreat()
+    if not Player:FindFirstChild("CoreStats") then return end
+    if Player.CoreStats.Honey.Value < MIN_HONEY then return end
+
+    local args = {
+        [1] = "Purchase",
+        [2] = {
+            ["Type"] = "Treat",
+            ["Amount"] = BUY_AMOUNT,
+            ["Category"] = "Eggs"
+        }
+    }
+
+    pcall(function()
+        Events.ItemPackageEvent:InvokeServer(unpack(args))
+    end)
+end
+while task.wait(2) do
+    buyTreat()
+local args = {
+    [1] = "Purchase",
+    [2] = {
+        ["Type"] = "Silver",
+        ["Amount"] = 1,
+        ["Category"] = "Eggs"
+    }
+}
+pcall(function()
+Events.ItemPackageEvent:InvokeServer(unpack(args))
+end)
+end
