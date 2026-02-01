@@ -14,7 +14,7 @@ writefile(path, json)
 local Events = ReplicatedStorage:WaitForChild("Events")
 
 -- ===== CONFIG RIÊNG =====
-local MIN_HONEY = 30000000   -- tối thiểu honey để mua
+local MIN_HONEY = 15000000   -- tối thiểu honey để mua
 local BUY_AMOUNT = 1000     -- số Treat mỗi lần mua
 -- ========================
 
