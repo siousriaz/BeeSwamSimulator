@@ -9,8 +9,10 @@ if not isfolder(folder) then
     makefolder(folder)
 end
 writefile(path, json)
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-
+local Player = Players.LocalPlayer
 local Events = ReplicatedStorage:WaitForChild("Events")
 
 -- ===== CONFIG RIÊNG =====
