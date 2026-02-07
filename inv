@@ -215,7 +215,7 @@ local function saveInventory()
     end
 
     writefile(
-        "Inventory/" .. Player.Name .. "materials.json",
+        "Inventory/" .. Player.Name .. "_materials.json",
         HttpService:JSONEncode(data)
     )
 end
