@@ -23,7 +23,7 @@ local farmrare = false
 local feeding = false
 local autoCount = false
 local uiVisible = false
-local currentScale = 0.75 
+local currentScale = 0.5
 
 local ClientStatCache = require(ReplicatedStorage:WaitForChild("ClientStatCache"))
 local globalCache = nil
