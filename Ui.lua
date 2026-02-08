@@ -75,16 +75,31 @@ Instance.new("UICorner", mainToggle).CornerRadius = UDim.new(0, 10)
 Instance.new("UIStroke", mainToggle).Color = Color3.fromRGB(0, 255, 120)
 
 -- [KHUNG CHÍNH]
+-- [SỬA LẠI PHẦN KHUNG CHÍNH - MAIN FRAME]
 local mainFrame = Instance.new("Frame")
 mainFrame.Name = "MasterFrame"
 mainFrame.Size = UDim2.new(0, 1250, 0, 650)
-mainFrame.Position = UDim2.new(0.5, -625, 0.5, -325)
+-- Đưa về chính giữa màn hình
+mainFrame.AnchorPoint = Vector2.new(0.5, 0.5) 
+mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0) 
+
 mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 mainFrame.Visible = false
 mainFrame.Active = true
-mainFrame.Draggable = true
+mainFrame.Draggable = true -- Mặc định cho phép kéo
 mainFrame.Parent = screenGui
 Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 15)
+local function SetupScrollLock(scrollFrame)
+    scrollFrame.MouseEnter:Connect(function()
+        mainFrame.Draggable = false
+    end)
+    scrollFrame.MouseLeave:Connect(function()
+        mainFrame.Draggable = true
+    end)
+end
+SetupScrollLock(invScroll)
+SetupScrollLock(tweenScroll)
+SetupScrollLock(craftScroll)
 
 local masterScale = Instance.new("UIScale")
 masterScale.Scale = currentScale
