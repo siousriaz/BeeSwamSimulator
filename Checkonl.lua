@@ -1,12 +1,3 @@
---[[
-    ================================================================================
-    INTEGRATED ONLINE INDEX UI - WITH AUTO KILL OLD UI
-    ================================================================================
-    - Tích hợp tính năng xóa UI cũ trước khi chạy.
-    - Giữ nguyên thiết lập tối ưu hóa hệ thống.
-    - Duy trì Font Bungee và Style đồng bộ.
-    ================================================================================
-]]
 
 -- [THIẾT LẬP TỐI ƯU HỆ THỐNG]
 settings().Rendering.QualityLevel = "Level01"
@@ -34,67 +25,99 @@ local function KillOldUI()
         end
     end
 end
-KillOldUI()
+KillOldUI() -- Chạy hàm xóa trước khi tạo UI mới
 
---================= GUI =================--
+--================= FONT (ĐỒNG BỘ) =================--
+
+local BUNGEE_FONT = Font.new(
+	"rbxassetid://12187365364",
+	Enum.FontWeight.Bold,
+	Enum.FontStyle.Normal
+)
+
+--================= TẠO GUI MỚI =================--
 
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "OnlineIndexUI"
 screenGui.ResetOnSpawn = false
-screenGui.Parent = PlayerGui
 screenGui.DisplayOrder = 999999
 screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
+screenGui.Parent = PlayerGui
+
 --================= LABEL FRAME (STYLE FPS) =================--
 
 local labelFrame = Instance.new("Frame")
-labelFrame.Size = UDim2.new(0,200,0,26)
-labelFrame.Position = UDim2.new(1,-210,0,85) -- dưới FPS
-labelFrame.BackgroundColor3 = Color3.fromRGB(20,20,20)
+labelFrame.Name = "IndexFrame"
+labelFrame.Size = UDim2.new(0, 180, 0, 50)
+labelFrame.Position = UDim2.new(1, -200, 0, 130)
+labelFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 labelFrame.BorderSizePixel = 0
 labelFrame.Parent = screenGui
-Instance.new("UICorner", labelFrame)
 
---================= LABEL =================--
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 6)
+corner.Parent = labelFrame
+
+--================= LABEL HIỂN THỊ =================--
 
 local label = Instance.new("TextLabel")
-label.Size = UDim2.new(1,0,1,0)
+label.Name = "StatusLabel"
+label.Size = UDim2.new(1, 0, 1, 0)
 label.BackgroundTransparency = 1
-label.TextColor3 = Color3.fromRGB(0,255,120)
+label.TextColor3 = Color3.fromRGB(0, 255, 120)
 label.FontFace = BUNGEE_FONT
 label.TextSize = 16
 label.TextScaled = false
 label.Text = "Online: 0"
 label.Parent = labelFrame
 
--- Đường dẫn file usernames.txt
-local filePath = "usernames.txt" -- hoặc Delta/workspace/usernames.txt
+--================= LOGIC XỬ LÝ FILE & USERNAME =================--
 
--- Tìm fileIndex theo username
+local filePath = "usernames.txt" -- Đường dẫn file trong Workspace
 local fileIndex = nil
+
+-- Kiểm tra và đọc file usernames.txt
 if isfile(filePath) then
     local content = readfile(filePath)
+    -- Tách dòng để tìm kiếm username của người chơi hiện tại
     local lines = string.split(content, "\n")
     for i, line in ipairs(lines) do
-        if line == player.Name then
+        -- Loại bỏ khoảng trắng thừa nếu có
+        local cleanLine = string.gsub(line, "%s+", "")
+        if cleanLine == player.Name then
             fileIndex = i
             break
         end
     end
 end
 
+-- [XỬ LÝ KẾT QUẢ]
 if fileIndex ~= nil then
-    -- Cập nhật label Online: X
+    -- Cập nhật Label với định dạng: [Username]: [Index]
     label.Text = player.Name .. ": " .. fileIndex
 
-    -- Vòng autorejoin
-    local update = true
+    -- Vòng lặp Ghi File Autorejoin (Chạy ngầm)
+    local updateActive = true
+    
+    -- Lắng nghe lỗi game để ngừng cập nhật file nếu bị kick/crash
     game:GetService("GuiService").ErrorMessageChanged:Connect(function()
-        update = false
+        updateActive = false
     end)
-    while update do
-        writefile("autorejoin" .. fileIndex .. ".txt", tostring(os.time()))
-        task.wait(1)
-    end
+    
+    -- Chạy task spawn để không làm treo script chính
+    task.spawn(function()
+        while updateActive do
+            -- Ghi thời gian hiện tại vào file autorejoin của riêng index này
+            local fileName = "autorejoin" .. fileIndex .. ".txt"
+            pcall(function()
+                writefile(fileName, tostring(os.time()))
+            end)
+            task.wait(1)
+        end
+    end)
 else
+    -- Nếu không tìm thấy tên trong file
     label.Text = "Online: 0"
 end
+
+print(">>> OnlineIndexUI Loaded | Old UI Killed Successfully <<<")
