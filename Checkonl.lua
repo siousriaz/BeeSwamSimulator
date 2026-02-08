@@ -1,3 +1,14 @@
+--[[
+    ================================================================================
+    INTEGRATED ONLINE INDEX UI - WITH AUTO KILL OLD UI
+    ================================================================================
+    - Tích hợp tính năng xóa UI cũ trước khi chạy.
+    - Giữ nguyên thiết lập tối ưu hóa hệ thống.
+    - Duy trì Font Bungee và Style đồng bộ.
+    ================================================================================
+]]
+
+-- [THIẾT LẬP TỐI ƯU HỆ THỐNG]
 settings().Rendering.QualityLevel = "Level01"
 UserSettings().GameSettings.MasterVolume = 0
 
@@ -7,18 +18,23 @@ pcall(function() s.ReduceMotion = true end)
 pcall(function() s.CameraShakesEnabled = false end)
 pcall(function() s.UiAnimationSpeed = 0 end)
 
-
+-- [KHỞI TẠO DỊCH VỤ]
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local PlayerGui = player:WaitForChild("PlayerGui")
 
---================= FONT (GIỐNG UI TRÊN) =================--
-
-local BUNGEE_FONT = Font.new(
-	"rbxassetid://12187365364",
-	Enum.FontWeight.Bold,
-	Enum.FontStyle.Normal
-)
+--================= PHẦN: KILL OLD UI (MỚI) =================--
+-- Đoạn mã này sẽ quét qua PlayerGui và xóa bất kỳ UI nào có tên "OnlineIndexUI" cũ
+local function KillOldUI()
+    local existingUIs = PlayerGui:GetChildren()
+    for i = 1, #existingUIs do
+        local ui = existingUIs[i]
+        if ui:IsA("ScreenGui") and ui.Name == "OnlineIndexUI" then
+            ui:Destroy()
+        end
+    end
+end
+KillOldUI()
 
 --================= GUI =================--
 
