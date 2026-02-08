@@ -1,11 +1,10 @@
 --[[
     ================================================================================
-    INTEGRATED SUPER SCRIPT - ULTIMATE EDITION (FULL TWEEN FIX)
+    INTEGRATED SUPER SCRIPT - ULTIMATE EDITION (FULL TWEEN & UI FIX)
     ================================================================================
+    - UI POSITION: CENTERED (FIXED)
+    - DRAG LOCK: ENABLED ON SCROLLING AREAS
     - UI SCALE: 0.75 (BIG SIZE)
-    - FONT SIZE: OPTIMIZED (EASY TO READ)
-    - ICONS: FULLY RESTORED
-    - TWEEN LIST: UPDATED WITH NEW COORDINATES
     ================================================================================
 ]]
 
@@ -23,7 +22,7 @@ local farmrare = false
 local feeding = false
 local autoCount = false
 local uiVisible = false
-local currentScale = 0.5
+local currentScale = 0.5 -- Bạn có thể chỉnh lên 0.75 nếu muốn to hơn nữa
 
 local ClientStatCache = require(ReplicatedStorage:WaitForChild("ClientStatCache"))
 local globalCache = nil
@@ -74,36 +73,29 @@ mainToggle.Parent = screenGui
 Instance.new("UICorner", mainToggle).CornerRadius = UDim.new(0, 10)
 Instance.new("UIStroke", mainToggle).Color = Color3.fromRGB(0, 255, 120)
 
--- [KHUNG CHÍNH]
--- [SỬA LẠI PHẦN KHUNG CHÍNH - MAIN FRAME]
+-- [KHUNG CHÍNH - ĐÃ CĂN GIỮA & FIX DRAG]
 local mainFrame = Instance.new("Frame")
 mainFrame.Name = "MasterFrame"
 mainFrame.Size = UDim2.new(0, 1250, 0, 650)
--- Đưa về chính giữa màn hình
-mainFrame.AnchorPoint = Vector2.new(0.5, 0.5) 
-mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0) 
-
+-- Căn giữa tuyệt đối
+mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 mainFrame.Visible = false
 mainFrame.Active = true
-mainFrame.Draggable = true -- Mặc định cho phép kéo
+mainFrame.Draggable = true 
 mainFrame.Parent = screenGui
 Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 15)
-local function SetupScrollLock(scrollFrame)
-    scrollFrame.MouseEnter:Connect(function()
-        mainFrame.Draggable = false
-    end)
-    scrollFrame.MouseLeave:Connect(function()
-        mainFrame.Draggable = true
-    end)
-end
-SetupScrollLock(invScroll)
-SetupScrollLock(tweenScroll)
-SetupScrollLock(craftScroll)
 
 local masterScale = Instance.new("UIScale")
 masterScale.Scale = currentScale
 masterScale.Parent = mainFrame
+
+-- Hàm hỗ trợ khóa Drag khi di chuột vào vùng cuộn
+local function EnableScrollLock(scrollFrame)
+    scrollFrame.MouseEnter:Connect(function() mainFrame.Draggable = false end)
+    scrollFrame.MouseLeave:Connect(function() mainFrame.Draggable = true end)
+end
 
 -- [COL 1: INVENTORY]
 local col1 = Instance.new("Frame", mainFrame)
@@ -133,6 +125,7 @@ invScroll.Size = UDim2.new(1, -10, 1, -120)
 invScroll.Position = UDim2.new(0, 5, 0, 105)
 invScroll.BackgroundTransparency = 1
 invScroll.ScrollBarThickness = 6
+EnableScrollLock(invScroll) -- Khóa Drag
 
 local invListLayout = Instance.new("UIListLayout", invScroll)
 invListLayout.Padding = UDim.new(0, 10)
@@ -148,6 +141,8 @@ local tweenScroll = Instance.new("ScrollingFrame", col2)
 tweenScroll.Size = UDim2.new(1, -10, 1, -20)
 tweenScroll.Position = UDim2.new(0, 5, 0, 10)
 tweenScroll.BackgroundTransparency = 1
+tweenScroll.ScrollBarThickness = 6
+EnableScrollLock(tweenScroll) -- Khóa Drag
 Instance.new("UIListLayout", tweenScroll).Padding = UDim.new(0, 8)
 
 -- [COL 3: MANUAL CONTROLS]
@@ -202,6 +197,8 @@ local craftScroll = Instance.new("ScrollingFrame", col4)
 craftScroll.Size = UDim2.new(1, -20, 1, -90)
 craftScroll.Position = UDim2.new(0, 10, 0, 80)
 craftScroll.BackgroundTransparency = 1
+craftScroll.ScrollBarThickness = 6
+EnableScrollLock(craftScroll) -- Khóa Drag
 Instance.new("UIListLayout", craftScroll).Padding = UDim.new(0, 10)
 
 -- [LOGIC TWEEN ENGINE]
@@ -242,42 +239,16 @@ local function BuildTweenBtn(name, color, func)
     return b
 end
 
--- [ĐĂNG KÝ TWEEN THEO YÊU CẦU MỚI]
-BuildTweenBtn("Blender", Color3.fromRGB(70, 130, 180), function()
-    TweenTo(CFrame.new(-424, 69, 37))
-end)
-
-BuildTweenBtn("Diamond Mask", Color3.fromRGB(0, 180, 180), function()
-    TweenTo(CFrame.new(-334, 132, -392))
-end)
-
-BuildTweenBtn("Royal Jelly Shop", Color3.fromRGB(180, 120, 0), function()
-    TweenTo(CFrame.new(-293.1046, 52.2116, 68.242))
-end)
-
-BuildTweenBtn("Petal Shop", Color3.fromRGB(255, 120, 200), function()
-    TweenTo(CFrame.new(-500.5889, 51.5681, 466.1004))
-end)
-
-BuildTweenBtn("Nectar Conserver", Color3.fromRGB(120, 255, 120), function()
-    TweenTo(CFrame.new(-415.5715, 101.0204, 343.2695))
-end)
-
-BuildTweenBtn("Dapper Shop", Color3.fromRGB(15, 97, 0), function()
-    TweenTo(CFrame.new(535.4567260742188, 137.8612823486328, -319.6371765136719))
-end)
-
-BuildTweenBtn("Star Amulet", Color3.fromRGB(0, 245, 16), function()
-    TweenTo(CFrame.new(169.3165283203125, 72.26011657714844, 358.0343933105469))
-end)
-
-BuildTweenBtn("Sticker Printer", Color3.fromRGB(166, 0, 255), function()
-    TweenTo(CFrame.new(205.68353271484375, 161.73097229003906, -194.668212890625))
-end)
-
-BuildTweenBtn("Gifted Bucko Bee", Color3.fromRGB(64, 0, 255), function()
-    TweenTo(CFrame.new(298.5751037597656, 61.452880859375, 107.14179229736328))
-end)
+-- [ĐĂNG KÝ TWEEN]
+BuildTweenBtn("Blender", Color3.fromRGB(70, 130, 180), function() TweenTo(CFrame.new(-424, 69, 37)) end)
+BuildTweenBtn("Diamond Mask", Color3.fromRGB(0, 180, 180), function() TweenTo(CFrame.new(-334, 132, -392)) end)
+BuildTweenBtn("Royal Jelly Shop", Color3.fromRGB(180, 120, 0), function() TweenTo(CFrame.new(-293.1, 52.2, 68.2)) end)
+BuildTweenBtn("Petal Shop", Color3.fromRGB(255, 120, 200), function() TweenTo(CFrame.new(-500.5, 51.5, 466.1)) end)
+BuildTweenBtn("Nectar Conserver", Color3.fromRGB(120, 255, 120), function() TweenTo(CFrame.new(-415.5, 101.0, 343.2)) end)
+BuildTweenBtn("Dapper Shop", Color3.fromRGB(15, 97, 0), function() TweenTo(CFrame.new(535.4, 137.8, -319.6)) end)
+BuildTweenBtn("Star Amulet", Color3.fromRGB(0, 245, 16), function() TweenTo(CFrame.new(169.3, 72.2, 358.0)) end)
+BuildTweenBtn("Sticker Printer", Color3.fromRGB(166, 0, 255), function() TweenTo(CFrame.new(205.6, 161.7, -194.6)) end)
+BuildTweenBtn("Gifted Bucko Bee", Color3.fromRGB(64, 0, 255), function() TweenTo(CFrame.new(298.5, 61.4, 107.1)) end)
 
 -- [RARE FARM SYSTEM]
 local rStart = BuildTweenBtn("START RARE FARM", Color3.fromRGB(80, 0, 150), function()
@@ -294,9 +265,7 @@ local rStart = BuildTweenBtn("START RARE FARM", Color3.fromRGB(80, 0, 150), func
     end)
 end)
 
-local rStop = BuildTweenBtn("STOP RARE FARM", Color3.fromRGB(180, 0, 50), function()
-    farmrare = false
-end)
+local rStop = BuildTweenBtn("STOP RARE FARM", Color3.fromRGB(180, 0, 50), function() farmrare = false end)
 
 -- [CONTROL BUTTONS]
 local function BuildControlBtn(text, y, color, func)
@@ -473,20 +442,12 @@ local function applyFont(p)
 end
 applyFont(screenGui)
 screenGui.DescendantAdded:Connect(function(o) task.wait() if o:IsA("TextLabel") or o:IsA("TextButton") or o:IsA("TextBox") then o.FontFace = Font.new("rbxassetid://12187365364") end end)
-getgenv().Settings = {
-    HideGlitchFX = true,
-    HideOtherBees = true,
-    TRequests = true,
-    PollenTextLarge = false,
-    PollenPopUps = false,
-    MusicMuted = true
-}
+
+getgenv().Settings = { HideGlitchFX = true, HideOtherBees = true, TRequests = true, PollenTextLarge = false, PollenPopUps = false, MusicMuted = true }
 for k, v in pairs(getgenv().Settings) do
-    game:GetService("ReplicatedStorage")
-        :WaitForChild("Events")
-        :WaitForChild("PlayerSettingsEvent")
-        :FireServer(k, v)
+    pcall(function() ReplicatedStorage.Events.PlayerSettingsEvent:FireServer(k, v) end)
 end
+
 task.spawn(function()
     if setfpscap then setfpscap(15) end
     pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/1toop/bss/refs/heads/main/pot.lua"))() end)
